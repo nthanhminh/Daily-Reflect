@@ -61,7 +61,8 @@ class DayTile extends StatelessWidget {
                 height: 10,
                 width: 10,
               ),*/ Icon(
-                Icons.alarm
+                Icons.alarm,
+                color: isToday ? Colors.white : Colors.black,
               )
             ),
           )
