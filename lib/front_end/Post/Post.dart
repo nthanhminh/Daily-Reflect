@@ -19,6 +19,8 @@ class _PostState extends State<Post> {
     'assets/profileImage/anh6.jpg',
   ];
 
+  var curIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -252,6 +254,7 @@ class _PostState extends State<Post> {
                         height: 12,
                       ),
                       Container(
+                        width: MediaQuery.of(context).size.width,
                         padding: EdgeInsets.only(left: 16),
                         child: Text(
                           'Đây là bài viết đầu tiên của tôi trên ứng dụng này',
@@ -269,6 +272,11 @@ class _PostState extends State<Post> {
                         height: 450,
                         child: PageView.builder(
                             itemCount: images.length,
+                            onPageChanged: (index){
+                              setState(() {
+                                curIndex = index;
+                              });
+                            },
                             itemBuilder: (context, index) {
                               return SizedBox(
                                 width: double.infinity,
@@ -281,7 +289,7 @@ class _PostState extends State<Post> {
                             }),
                       ),
                       SizedBox(
-                        height: 4,
+                        height: 12,
                       ),
                       Stack(children: [
                         Container(
@@ -310,6 +318,16 @@ class _PostState extends State<Post> {
                             ],
                           ),
                         ),
+                        Positioned(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              for(int i=0;i<images.length;i++)
+                                buildIndicator(i == curIndex)
+                            ],
+                          ),
+                        )
                       ]),
                       SizedBox(
                         height: 12,
@@ -747,4 +765,16 @@ class _PostState extends State<Post> {
           )),
     );
   }
+}
+
+Widget buildIndicator(bool selected){
+  return Container(
+    margin: EdgeInsets.only(right: 8),
+    width: selected ? 9 : 6,
+    height: selected ? 9 : 6,
+    decoration: BoxDecoration(
+      color: selected ? Colors.lightBlueAccent.withOpacity(0.9) : Colors.white.withOpacity(0.8),
+      borderRadius: BorderRadius.circular(20),
+    ),
+  );
 }
