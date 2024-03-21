@@ -1,15 +1,19 @@
+import 'package:daily_reflect/models/MoodOfDay.dart';
 import 'package:daily_reflect/screens/CommonComponent/MoodArticle.dart';
-import 'package:daily_reflect/screens/ConvexNavigationBar.dart';
+import 'package:daily_reflect/screens/CommonComponent/ConvexNavigationBar.dart';
 import 'package:daily_reflect/screens/HomeScreen/CalendarBox.dart';
 import 'package:daily_reflect/screens/HomeScreen/DayTile.dart';
 import 'package:daily_reflect/screens/HomeScreen/MoodChart.dart';
 import 'package:daily_reflect/screens/HomeScreen/StreakBox.dart';
+import 'package:daily_reflect/screens/CommonComponent/SampleData.dart';
 import 'package:daily_reflect/utilities/HexColor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
+
+import '../../models/Mood.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -27,9 +31,8 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: HexColor('#B0B0B0'),
       resizeToAvoidBottomInset: false,
-      bottomNavigationBar: ConvexNavigationBar(),
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -110,10 +113,11 @@ class _HomeState extends State<Home> {
                                             width: 12,
                                           ),
                                           DayTile(
+                                            moodOfDay: MoodOfDay(
                                             dayOfMonth: testDayList[index],
                                             dayOfWeek: testDayOfWeekList[index],
                                             isToday: index == testToday,
-                                            moodId: testMoodList[index],
+                                            moodId: testMoodList[index]),
                                           ),
                                         ],
                                       )),
@@ -158,23 +162,7 @@ class _HomeState extends State<Home> {
                               SizedBox(height: 10),
                               Container(
                                   height: 300,
-                                  child: MoodChart(time: const [
-                                    '1:00',
-                                    '2:00',
-                                    '3:00',
-                                    '4:00',
-                                    '5:00',
-                                    '6:00',
-                                    '7:00'
-                                  ], moodId: const [
-                                    0,
-                                    1,
-                                    2,
-                                    3,
-                                    4,
-                                    1,
-                                    2
-                                  ])),
+                                  child: MoodChart(moods: SampleData.moods,)),
                             ],
                           )),
                     ),
@@ -184,19 +172,14 @@ class _HomeState extends State<Home> {
                     ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: 2,
+                      itemCount: 5,
                       cacheExtent: 1000,
                       scrollDirection: Axis.vertical,
                       itemBuilder: (BuildContext context, int index) {
                         return Column(
                           children: [
                             MoodArticle(
-                              time: '1:00',
-                              feelings: ['I want to set the world on fire'],
-                              causes: ['No apparent reason'],
-                              note:
-                                  'Ảo ma canada mafia Argentina Malaysia California Australia Austria Venezuela Romania Lazada Sri Lanka Sakura Haibara Edogawa Conan Naruto Nami Roronoa Zoro Sanji Kaido Shanks nhảy chachacha Chaien đấm Nobita và làm Shizuka nhòe đi Mascara',
-                              moodId: 4,
+                              mood: SampleData.moods[index]
                             ),
                             SizedBox(height: 10,),
                           ],

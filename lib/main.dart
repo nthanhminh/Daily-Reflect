@@ -1,4 +1,7 @@
+import 'package:daily_reflect/screens/HistoryScreen/HistoryScreen.dart';
 import 'package:daily_reflect/screens/HomeScreen/Home.dart';
+import 'package:daily_reflect/screens/CommonComponent/SampleData.dart';
+import 'package:daily_reflect/screens/CommonComponent/ScaffoldWrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -17,10 +20,7 @@ class DailyReflectApp extends StatelessWidget {
     return GetMaterialApp(
       theme: themeData,
       title: 'DailyReflect',
-      initialRoute: '/home',
-      routes: {
-        '/home': (context) => Home(),
-      },
+      home: ScaffoldWrapper(),
     );
   }
 }

@@ -1,11 +1,12 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-class MoodChart extends StatefulWidget {
-  MoodChart({super.key, required this.time, required this.moodId});
+import '../../models/Mood.dart';
 
-  List<String> time;
-  List<int> moodId;
+class MoodChart extends StatefulWidget {
+  MoodChart({super.key, required this.moods});
+
+  List<Mood> moods;
 
   @override
   State<MoodChart> createState() => _MoodChartState();
@@ -61,16 +62,16 @@ class _MoodChartState extends State<MoodChart> {
 
   List<BarChartGroupData> showingGroups() {
     List<BarChartGroupData> data = [];
-    for(int i = 0; i < widget.moodId.length; i++) {
-      data.add(makeGroupData(i, moodLength[widget.moodId[i]], isTouched: i == touchedIndex, barColor: moodColors[widget.moodId[i]]));
+    for(int i = 0; i < widget.moods.length; i++) {
+      data.add(makeGroupData(i, moodLength[widget.moods[i].moodId!], isTouched: i == touchedIndex, barColor: moodColors[widget.moods[i].moodId!]));
     }
     return data;
   }
 
   List<BarChartGroupData> zeroGroups() {
     List<BarChartGroupData> data = [];
-    for(int i = 0; i < widget.moodId.length; i++) {
-      data.add(makeGroupData(i, 0, isTouched: i == touchedIndex, barColor: moodColors[widget.moodId[i]]));
+    for(int i = 0; i < widget.moods.length; i++) {
+      data.add(makeGroupData(i, 0, isTouched: i == touchedIndex, barColor: moodColors[widget.moods[i].moodId!]));
     }
     return data;
   }
@@ -121,7 +122,7 @@ class _MoodChartState extends State<MoodChart> {
       fontWeight: FontWeight.bold,
       fontSize: 14,
     );
-    Widget text = Text(widget.time[value.toInt()], style: style,);
+    Widget text = Text(widget.moods[value.toInt()].time!, style: style,);
     return SideTitleWidget(axisSide: meta.axisSide, space: 16, child: text,);
   }
 }

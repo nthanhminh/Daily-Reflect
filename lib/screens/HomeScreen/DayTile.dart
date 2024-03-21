@@ -1,18 +1,13 @@
+import 'package:daily_reflect/models/MoodOfDay.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 
 class DayTile extends StatelessWidget {
   DayTile(
       {super.key,
-      required this.dayOfWeek,
-      required this.dayOfMonth,
-        this.moodId,
-      required this.isToday});
+      required this.moodOfDay});
 
-  late final int dayOfWeek;
-  late final int dayOfMonth;
-  late final int? moodId;
-  late final bool isToday;
+  MoodOfDay moodOfDay;
 
   var daysName = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
@@ -27,32 +22,32 @@ class DayTile extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 7),
                 child: Column(
                   children: [
-                    Text(daysName[dayOfWeek],
+                    Text(daysName[moodOfDay.dayOfWeek],
                         style: TextStyle(
                             fontSize: 15, fontWeight: FontWeight.normal,
-                          color: isToday? Colors.white : Colors.black,
+                          color: moodOfDay.isToday? Colors.white : Colors.black,
                         ),
                     ),
                     Text(
-                      dayOfMonth.toString(),
+                      moodOfDay.dayOfMonth.toString(),
                       style:
                           TextStyle(fontSize: 17, fontWeight: FontWeight.bold,
-                            color: isToday? Colors.white : Colors.black,),
+                            color: moodOfDay.isToday? Colors.white : Colors.black,),
                     )
                   ],
                 ),
               ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(25.0),
-                color: isToday ? Colors.purpleAccent : Colors.white,
+                color: moodOfDay.isToday ? Colors.purpleAccent : Colors.white,
               )),
           SizedBox(
             height: 5,
           ),
-          moodId == null ? Container() : Container(
+          moodOfDay.moodId == null ? Container() : Container(
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(50.0),
-                color: isToday ? Colors.purpleAccent : Colors.white,),
+                color: moodOfDay.isToday ? Colors.purpleAccent : Colors.white,),
             height: 30,
             width: 30,
             child: Center(
@@ -62,7 +57,7 @@ class DayTile extends StatelessWidget {
                 width: 10,
               ),*/ Icon(
                 Icons.alarm,
-                color: isToday ? Colors.white : Colors.black,
+                color: moodOfDay.isToday ? Colors.white : Colors.black,
               )
             ),
           )
