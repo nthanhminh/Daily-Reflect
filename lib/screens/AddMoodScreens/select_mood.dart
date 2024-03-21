@@ -1,3 +1,5 @@
+import 'package:daily_reflect/screens/AddMoodScreens/select_neutral_mood.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 const angryIconUrl = 'assets/icons/angry.gif';
@@ -6,19 +8,21 @@ const neutralIconUrl = 'assets/icons/neutral.gif';
 const smilingIconUrl = 'assets/icons/smile.gif';
 const happyIconUrl = 'assets/icons/happy.gif';
 
-class AddMoodStepOne extends StatefulWidget {
-  const AddMoodStepOne({super.key});
+class AddMood extends StatefulWidget {
+  const AddMood({super.key});
 
   @override
-  State<AddMoodStepOne> createState() => _AddMoodStepOneState();
+  State<AddMood> createState() => _AddMoodState();
 }
 
-class _AddMoodStepOneState extends State<AddMoodStepOne> {
+class _AddMoodState extends State<AddMood> {
+  int step = 0;
+  List<Widget> addMoodSteps = [AddMoodStepOne(), AddMoodStepTwo()];
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(15),
-      height: 800,
+      height: 700,
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(20)),
         gradient: LinearGradient(
@@ -31,42 +35,69 @@ class _AddMoodStepOneState extends State<AddMoodStepOne> {
           ]
         )
       ),
-      child: Column(
+      child: Stack(
         children: [
-          topBar(),
-          const SizedBox(height: 30),
-          const Text(
-            'What\'s your mood now?',
-            style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-            )
-          ),
-          const SizedBox(height: 20),
-          const Text(
-            'Select mood that reflects the most how you are '
-          ),
-          const Text(
-            'feeling at this moment'
-          ),
-          const SizedBox(height: 180),
-          moodList(),
-          const SizedBox(height: 180),
-          ElevatedButton(
-            onPressed: () {
-
-            },
-            style: ElevatedButton.styleFrom(
-              minimumSize: Size(360, 60),
-              backgroundColor: Color.fromRGBO(139, 76, 252, 1),
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(50))
-              )
-            ),
-            child: const Text('Continue', style: TextStyle(color: Colors.white, fontSize: 20),),
+          addMoodSteps[step],
+          Column(
+            children: [
+              SizedBox(height: 600),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    if(step < addMoodSteps.length - 1) {
+                      step++;
+                    }
+                  });
+                },
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(360, 60),
+                  backgroundColor: Color.fromRGBO(139, 76, 252, 1),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(50))
+                  )
+                ),
+                child: const Text('Continue', style: TextStyle(color: Colors.white, fontSize: 20),),
+              ),
+            ],
           ),
         ],
       )
+    );
+  }
+}
+class AddMoodStepOne extends StatefulWidget {
+  const AddMoodStepOne({super.key});
+
+  @override
+  State<AddMoodStepOne> createState() => _AddMoodStepOneState();
+}
+
+class _AddMoodStepOneState extends State<AddMoodStepOne> {
+  int selectedMoodIndex = -1;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        topBar(),
+        const SizedBox(height: 30),
+        const Text(
+          'What\'s your mood now?',
+          style: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+          )
+        ),
+        const SizedBox(height: 20),
+        const Text(
+          'Select mood that reflects the most how you are '
+        ),
+        const Text(
+          'feeling at this moment'
+        ),
+        const SizedBox(height: 180),
+        moodList(),
+        const SizedBox(height: 180),
+      ],
     );
   }
 
@@ -125,33 +156,54 @@ class _AddMoodStepOneState extends State<AddMoodStepOne> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Image.asset(angryIconUrl, height: 40, width: 40,),
-        Image.asset(sadIconUrl, height: 40, width: 40,),
-        Image.asset(neutralIconUrl, height: 40, width: 40,),
-        Image.asset(smilingIconUrl, height: 40, width: 40,),
-        Image.asset(happyIconUrl, height: 40, width: 40,)
+        // Image.asset(angryIconUrl, height: 40, width: 40,),
+        // Image.asset(sadIconUrl, height: 40, width: 40,),
+        // Image.asset(neutralIconUrl, height: 40, width: 40,),
+        // Image.asset(smilingIconUrl, height: 40, width: 40,),
+        // Image.asset(happyIconUrl, height: 40, width: 40,)
+        IconCell(iconUrl: angryIconUrl, isPressed: selectedMoodIndex == 0, onPressed: () {setState(() {
+          selectedMoodIndex = 0;
+        });},),
+        IconCell(iconUrl: sadIconUrl, isPressed: selectedMoodIndex == 1, onPressed: () {
+          setState(() {
+            selectedMoodIndex = 1;
+          });
+        },),
+        IconCell(iconUrl: neutralIconUrl, isPressed: selectedMoodIndex == 2, onPressed: () {setState(() {
+          selectedMoodIndex = 2;
+        });},),
+        IconCell(iconUrl: smilingIconUrl, isPressed: selectedMoodIndex == 3, onPressed: () {setState(() {
+          selectedMoodIndex = 3;
+        });},),
+        IconCell(iconUrl: happyIconUrl, isPressed: selectedMoodIndex == 4, onPressed: () {setState(() {
+          selectedMoodIndex = 4;
+        });},),
       ],
     );
   }
 }
 
-// class IconCell extends StatelessWidget {
-//   final String iconUrl;
-//   final bool isPressed;
-//   void Function()? onPressed;
-//   IconCell({super.key, required this.iconUrl, required this.isPressed, required this.onPressed});
+class IconCell extends StatelessWidget {
+  final String iconUrl;
+  final bool isPressed;
+  void Function()? onPressed;
+  IconCell({super.key, required this.iconUrl, required this.isPressed, required this.onPressed});
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       decoration: BoxDecoration(
-//         color: isPressed ? Colors.yellow : Colors.white,
-//         borderRadius: BorderRadius.all(Radius.circular(50.0))
-//       ),
-//       child: GestureDetector(
-//         onTap: onPressed,
-//         child: Image.network(iconUrl)
-//       )
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        height: 60,
+        width: 60,
+        decoration: BoxDecoration(
+          color: isPressed ? Color.fromARGB(255, 251, 194, 103) : Colors.transparent,
+          borderRadius: BorderRadius.circular(30)
+        ),
+        child: Center(
+          child: Image.asset(iconUrl, height: 40, width: 40,),
+        ),
+      ),
+    );
+  }
+}

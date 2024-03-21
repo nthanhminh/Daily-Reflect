@@ -1,6 +1,7 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:daily_reflect/screens/AddMoodScreens/select_mood.dart';
-import 'package:daily_reflect/utilities/draggable_sheet.dart';
+import 'package:daily_reflect/screens/AddMoodScreens/select_neutral_mood.dart';
+// import 'package:daily_reflect/utilities/draggable_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -30,9 +31,7 @@ class ConvexNavigationBar extends StatelessWidget {
               backgroundColor: Colors.transparent,
               context: context,
               builder: (context) {
-                return DraggableSheet(
-                  child: AddMoodStepOne(),
-                );
+                return AddMood();
               }
             );
           default:
