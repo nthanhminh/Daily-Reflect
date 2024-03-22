@@ -1,5 +1,7 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:daily_reflect/screens/CommonService/NavBarController.dart';
+import 'package:daily_reflect/screens/MoodPopUp.dart';
+import 'package:daily_reflect/utilities/FakePopUpRoute.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -24,7 +26,10 @@ class ConvexNavigationBar extends StatelessWidget {
           case 0:
             controller.switchToHome();
           case 1:
-            controller.switchToPosts();
+            //controller.switchToPosts();
+            Navigator.of(context).push(FakePopUpRoute(builder: (context) {
+              return MoodPopUp(way: 'Good way', currentStatus: 'Amazing');
+            }));
           case 2:
             controller.switchToHistory();
           case 3:

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -16,10 +18,17 @@ class _MoodChartState extends State<MoodChart> {
   bool start = true;
   int touchedIndex = -1;
   List<double> moodLength = [5, 7, 9, 11, 13];
+  late Timer t;
   List<Color> moodColors = [Colors.red, Colors.orange, Colors.yellow, Colors.green, Colors.blue];
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    t.cancel();
+  }
+  @override
   Widget build(BuildContext context) {
-    Future.delayed(const Duration(milliseconds: 500), () {
+    t = Timer(const Duration(milliseconds: 500), () {
       setState(() {
         start = false;
       });
