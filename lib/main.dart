@@ -20,7 +20,12 @@ class DailyReflectApp extends StatelessWidget {
     return GetMaterialApp(
       theme: themeData,
       title: 'DailyReflect',
-      home: ScaffoldWrapper(),
+        initialRoute: '/',
+      routes: {
+        '/': (context) => ScaffoldWrapper(),
+        //'/home': (context) => Home(),
+        //'/history': (context) => History(weeksOfArticles: SampleData.weeksOfMoods),
+      },
     );
   }
 }

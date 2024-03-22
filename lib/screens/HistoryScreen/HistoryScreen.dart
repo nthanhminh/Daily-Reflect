@@ -17,7 +17,10 @@ class History extends StatefulWidget {
 
 class _HistoryState extends State<History> with TickerProviderStateMixin {
   late PageController _pageViewController;
+  bool back = false;
   int _currentPageIndex = 0;
+  final offset1 = Tween(begin: const Offset(0, -1), end: const Offset(0, 0));
+  final offset2 = Tween(begin: const Offset(0, 1), end: const Offset(0, 0));
 
   @override
   void initState() {
@@ -49,8 +52,17 @@ class _HistoryState extends State<History> with TickerProviderStateMixin {
                 SizedBox(width: 10.0,),
                 Text("Your history", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
                 Expanded(child: SizedBox(width: double.infinity,)),
-                Text(widget.weeksOfArticles[_currentPageIndex].weekTime, style: TextStyle(fontSize: 21, fontWeight: FontWeight.w400),),
-                SizedBox(width: 5,),
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 500),
+                  transitionBuilder: (child, animation) => SlideTransition(
+                    position: back ? (animation.value == 1? offset2 : offset1).animate(animation) : (animation.value == 1? offset1 : offset2).animate(animation),
+                    child: child,
+                  ),
+                  child: Text(
+                    widget.weeksOfArticles[_currentPageIndex].weekTime, style: TextStyle(fontSize: 21, fontWeight: FontWeight.w400),
+                    key: ValueKey<int>(_currentPageIndex),
+                  ),
+                ),                SizedBox(width: 5,),
                 IconButton(onPressed: () {
                   _updateCurrentPageIndex(_currentPageIndex - 1);
                 }, icon: Icon(
@@ -81,6 +93,11 @@ class _HistoryState extends State<History> with TickerProviderStateMixin {
   }
   void _handlePageViewChanged(int currentPageIndex) {
     setState(() {
+      if(_currentPageIndex < currentPageIndex) {
+        back = false;
+      } else {
+        back = true;
+      }
       _currentPageIndex = currentPageIndex;
     });
   }

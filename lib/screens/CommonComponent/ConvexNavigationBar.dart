@@ -22,9 +22,13 @@ class ConvexNavigationBar extends StatelessWidget {
       onTap: (int i) {
         switch (i) {
           case 0:
-            Navigator.pushNamed(context, '/home');
+            controller.switchToHome();
+          case 1:
+            controller.switchToPosts();
           case 2:
-            Navigator.pushNamed(context, '/history');
+            controller.switchToHistory();
+          case 3:
+            controller.switchToProfile();
           default:
             print("Fuck you");
         }

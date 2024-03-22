@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 import '../../models/Mood.dart';
 import '../CommonComponent/MoodArticle.dart';
@@ -15,22 +16,29 @@ class ArticlesColumn extends StatefulWidget {
 class _ArticlesColumnState extends State<ArticlesColumn> {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return AnimationLimiter(
       child: ListView.builder(
         shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
         itemCount: widget.moods.length,
         cacheExtent: 1000,
         scrollDirection: Axis.vertical,
         itemBuilder: (BuildContext context, int index) {
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              MoodArticle(
-                  mood: widget.moods[index],
-              ),
-              SizedBox(height: 10,),
-            ],
+          return AnimationConfiguration.staggeredList(
+            position: index,
+            duration: const Duration(milliseconds: 700),
+            child: SlideAnimation(
+              verticalOffset: 200.0,
+              child: FadeInAnimation(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      MoodArticle(
+                        mood: widget.moods[index],
+                      ),
+                      SizedBox(height: 10,),
+                    ],
+                  )),
+            ),
           );
         },
       ),
