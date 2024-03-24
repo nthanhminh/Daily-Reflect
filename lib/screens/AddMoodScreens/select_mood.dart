@@ -1,5 +1,5 @@
 import 'package:daily_reflect/screens/AddMoodScreens/select_neutral_mood.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:daily_reflect/screens/AddMoodScreens/select_reason.dart';
 import 'package:flutter/material.dart';
 
 const angryIconUrl = 'assets/icons/angry.gif';
@@ -17,7 +17,7 @@ class AddMood extends StatefulWidget {
 
 class _AddMoodState extends State<AddMood> {
   int step = 0;
-  List<Widget> addMoodSteps = [AddMoodStepOne(), AddMoodStepTwo()];
+  List<Widget> addMoodSteps = [AddMoodStepOne(), AddMoodStepTwo(), SelectReason()];
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -106,57 +106,6 @@ class _AddMoodStepOneState extends State<AddMoodStepOne> {
     );
   }
 
-  // Widget topBar() {
-  //   return Stack(
-  //           children: [
-  //             Align(
-  //               alignment: Alignment.center,
-  //               child: Container(
-  //                 padding: EdgeInsets.all(16.0),
-  //                 child: const Text(
-  //                   '1/4',
-  //                 ),
-  //               ),
-  //             ),
-  //             Row(
-  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //               children: [
-  //                 Container(
-  //                   padding: const EdgeInsets.all(12),
-  //                   decoration: const BoxDecoration(
-  //                     color: Colors.white,
-  //                     borderRadius: BorderRadius.all(Radius.circular(25))
-  //                   ),
-  //                   child: const Row(
-  //                     children: [
-  //                       // Current day
-  //                       Text(
-  //                         'Sun, 4 Jun  ',
-  //                         style: TextStyle(
-  //                           fontSize: 13
-  //                         )
-  //                       ),
-  //                       Icon(Icons.calendar_month_rounded)
-  //                     ],
-  //                   )
-  //                 ),
-  //                 Container(
-  //                   decoration: const BoxDecoration(
-  //                     color: Colors.white,
-  //                     borderRadius: BorderRadius.all(Radius.circular(50))
-  //                   ),
-  //                   child: TextButton(
-  //                     child: Icon(Icons.close, color: Colors.black,),
-  //                     onPressed: () {
-  //                       Navigator.of(context).pop();
-  //                     },
-  //                   )
-  //                 ),
-  //               ],
-  //             )
-  //           ],
-  //         );
-  // }
   Widget moodList() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -220,40 +169,43 @@ class TopBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Align(
-          alignment: Alignment.center,
-          child: Container(
-            padding: EdgeInsets.all(16.0),
-            child: Text(
-              "${step + 1}/4",
+    return Container(
+      color: Color.fromRGBO(228, 240, 247, 1),
+      child: Stack(
+        children: [
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              padding: EdgeInsets.all(16.0),
+              child: Text(
+                "${step + 1}/4",
+              ),
             ),
           ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            step == 0 ? calendarBox() : ElevatedButton(
-              onPressed: goBack,
-              child: Icon(Icons.arrow_back)
-            ),
-            Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(50))
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              step == 0 ? calendarBox() : ElevatedButton(
+                onPressed: goBack,
+                child: Icon(Icons.arrow_back)
               ),
-              child: TextButton(
-                child: Icon(Icons.close, color: Colors.black,),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              )
-            ),
-          ],
-        )
-      ],
+              Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(50))
+                ),
+                child: TextButton(
+                  child: Icon(Icons.close, color: Colors.black,),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
   Widget calendarBox() {
