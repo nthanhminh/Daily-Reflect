@@ -36,11 +36,17 @@ class _AddMoodState extends State<AddMood> {
         )
       ),
       child: Stack(
+        alignment: Alignment.center,
         children: [
           addMoodSteps[step],
           Column(
             children: [
-              SizedBox(height: 600),
+              TopBar(step: step, goBack: () {
+                setState(() {
+                  step--;
+                });
+              }),
+              SizedBox(height: 550),
               ElevatedButton(
                 onPressed: () {
                   setState(() {
@@ -78,8 +84,7 @@ class _AddMoodStepOneState extends State<AddMoodStepOne> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        topBar(),
-        const SizedBox(height: 30),
+        const SizedBox(height: 80),
         const Text(
           'What\'s your mood now?',
           style: TextStyle(
@@ -101,57 +106,57 @@ class _AddMoodStepOneState extends State<AddMoodStepOne> {
     );
   }
 
-  Widget topBar() {
-    return Stack(
-            children: [
-              Align(
-                alignment: Alignment.center,
-                child: Container(
-                  padding: EdgeInsets.all(16.0),
-                  child: const Text(
-                    '1/4',
-                  ),
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(25))
-                    ),
-                    child: const Row(
-                      children: [
-                        // Current day
-                        Text(
-                          'Sun, 4 Jun  ',
-                          style: TextStyle(
-                            fontSize: 13
-                          )
-                        ),
-                        Icon(Icons.calendar_month_rounded)
-                      ],
-                    )
-                  ),
-                  Container(
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(50))
-                    ),
-                    child: TextButton(
-                      child: Icon(Icons.close, color: Colors.black,),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    )
-                  ),
-                ],
-              )
-            ],
-          );
-  }
+  // Widget topBar() {
+  //   return Stack(
+  //           children: [
+  //             Align(
+  //               alignment: Alignment.center,
+  //               child: Container(
+  //                 padding: EdgeInsets.all(16.0),
+  //                 child: const Text(
+  //                   '1/4',
+  //                 ),
+  //               ),
+  //             ),
+  //             Row(
+  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //               children: [
+  //                 Container(
+  //                   padding: const EdgeInsets.all(12),
+  //                   decoration: const BoxDecoration(
+  //                     color: Colors.white,
+  //                     borderRadius: BorderRadius.all(Radius.circular(25))
+  //                   ),
+  //                   child: const Row(
+  //                     children: [
+  //                       // Current day
+  //                       Text(
+  //                         'Sun, 4 Jun  ',
+  //                         style: TextStyle(
+  //                           fontSize: 13
+  //                         )
+  //                       ),
+  //                       Icon(Icons.calendar_month_rounded)
+  //                     ],
+  //                   )
+  //                 ),
+  //                 Container(
+  //                   decoration: const BoxDecoration(
+  //                     color: Colors.white,
+  //                     borderRadius: BorderRadius.all(Radius.circular(50))
+  //                   ),
+  //                   child: TextButton(
+  //                     child: Icon(Icons.close, color: Colors.black,),
+  //                     onPressed: () {
+  //                       Navigator.of(context).pop();
+  //                     },
+  //                   )
+  //                 ),
+  //               ],
+  //             )
+  //           ],
+  //         );
+  // }
   Widget moodList() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -204,6 +209,72 @@ class IconCell extends StatelessWidget {
           child: Image.asset(iconUrl, height: 40, width: 40,),
         ),
       ),
+    );
+  }
+}
+
+class TopBar extends StatelessWidget {
+  final step;
+  final VoidCallback goBack;
+  TopBar({super.key, required this.step, required this.goBack});
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Align(
+          alignment: Alignment.center,
+          child: Container(
+            padding: EdgeInsets.all(16.0),
+            child: Text(
+              "${step + 1}/4",
+            ),
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            step == 0 ? calendarBox() : ElevatedButton(
+              onPressed: goBack,
+              child: Icon(Icons.arrow_back)
+            ),
+            Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(50))
+              ),
+              child: TextButton(
+                child: Icon(Icons.close, color: Colors.black,),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ),
+          ],
+        )
+      ],
+    );
+  }
+  Widget calendarBox() {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(25))
+      ),
+      child: const Row(
+        children: [
+          // Current day
+          Text(
+            'Sun, 4 Jun  ',
+            style: TextStyle(
+              fontSize: 13
+            )
+          ),
+          Icon(Icons.calendar_month_rounded)
+        ],
+      )
     );
   }
 }

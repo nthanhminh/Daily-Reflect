@@ -11,9 +11,9 @@ class _AddMoodStepTwoState extends State<AddMoodStepTwo> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        topBar(),
-        const SizedBox(height: 10),
+        const SizedBox(height: 60),
         const Text(
           'Choose the emotion that',
           style: TextStyle(
@@ -33,44 +33,6 @@ class _AddMoodStepTwoState extends State<AddMoodStepTwo> {
           'Select at least 1 emotion'
         ),
         const SizedBox(height: 400),
-      ],
-    );
-  }
-
-  Widget topBar() {
-    return Stack(
-      children: [
-        Align(
-          alignment: Alignment.center,
-          child: Container(
-            padding: EdgeInsets.all(16.0),
-            child: const Text(
-              '2/4',
-            ),
-          ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: () {},
-              child: Icon(Icons.arrow_back)
-            ),
-            Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(50))
-              ),
-              child: TextButton(
-                child: Icon(Icons.close, color: Colors.black,),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              )
-            ),
-          ],
-        )
       ],
     );
   }
