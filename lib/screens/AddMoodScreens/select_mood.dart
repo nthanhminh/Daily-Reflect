@@ -1,5 +1,7 @@
+import 'package:daily_reflect/screens/AddMoodScreens/add_note.dart';
 import 'package:daily_reflect/screens/AddMoodScreens/select_neutral_mood.dart';
 import 'package:daily_reflect/screens/AddMoodScreens/select_reason.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 const angryIconUrl = 'assets/icons/angry.gif';
@@ -17,7 +19,7 @@ class AddMood extends StatefulWidget {
 
 class _AddMoodState extends State<AddMood> {
   int step = 0;
-  List<Widget> addMoodSteps = [AddMoodStepOne(), AddMoodStepTwo(), SelectReason()];
+  List<Widget> addMoodSteps = [AddMoodStepOne(), AddMoodStepTwo(), SelectReason(), AddNote()];
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -30,7 +32,7 @@ class _AddMoodState extends State<AddMood> {
           end: Alignment.bottomCenter,
           colors: [
             Color.fromRGBO(228, 240, 247, 1),
-            Color.fromRGBO(239, 237, 252, 1),
+            Color.fromRGBO(224, 221, 248, 1),
             Colors.white,
           ]
         )
@@ -38,7 +40,17 @@ class _AddMoodState extends State<AddMood> {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          addMoodSteps[step],
+          ShaderMask(
+            shaderCallback: (rectangle) {
+              return LinearGradient(
+                colors: [Colors.black, Colors.transparent],
+                begin: Alignment.center,
+                end: Alignment.bottomCenter,
+              ).createShader(Rect.fromLTRB(0, 400, rectangle.width, rectangle.height));
+            },
+            blendMode: BlendMode.dstIn,
+            child: addMoodSteps[step]
+          ),
           Column(
             children: [
               TopBar(step: step, goBack: () {
@@ -46,24 +58,10 @@ class _AddMoodState extends State<AddMood> {
                   step--;
                 });
               }),
-              SizedBox(height: 550),
-              ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    if(step < addMoodSteps.length - 1) {
-                      step++;
-                    }
-                  });
-                },
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(360, 60),
-                  backgroundColor: Color.fromRGBO(139, 76, 252, 1),
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(50))
-                  )
-                ),
-                child: const Text('Continue', style: TextStyle(color: Colors.white, fontSize: 20),),
-              ),
+              SizedBox(height: step < 3 ? 550 : 480),
+              step < 3 ? ContinueButton(onPressed: () {setState(() {
+                step++;
+              });},) : SaveButton(onSave: () {}, onSkip: () {})
             ],
           ),
         ],
@@ -140,8 +138,8 @@ class _AddMoodStepOneState extends State<AddMoodStepOne> {
 class IconCell extends StatelessWidget {
   final String iconUrl;
   final bool isPressed;
-  void Function()? onPressed;
-  IconCell({super.key, required this.iconUrl, required this.isPressed, required this.onPressed});
+  final Function()? onPressed;
+  const IconCell({super.key, required this.iconUrl, required this.isPressed, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -186,21 +184,22 @@ class TopBar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              step == 0 ? calendarBox() : ElevatedButton(
+              step == 0 ? calendarBox() : TextButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateColor.resolveWith((states) => Colors.white),
+                  iconColor: MaterialStateColor.resolveWith((states) => Colors.black),
+                ),
                 onPressed: goBack,
                 child: Icon(Icons.arrow_back)
               ),
-              Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(50))
+              TextButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateColor.resolveWith((states) => Colors.white),
                 ),
-                child: TextButton(
-                  child: Icon(Icons.close, color: Colors.black,),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                )
+                child: Icon(Icons.close, color: Colors.black,),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
               ),
             ],
           )
@@ -227,6 +226,62 @@ class TopBar extends StatelessWidget {
           Icon(Icons.calendar_month_rounded)
         ],
       )
+    );
+  }
+}
+
+class ContinueButton extends StatelessWidget {
+  final VoidCallback onPressed;
+  const ContinueButton({super.key, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        minimumSize: Size(360, 60),
+        backgroundColor: Color.fromRGBO(139, 76, 252, 1),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(50))
+        )
+      ),
+      child: const Text('Continue', style: TextStyle(color: Colors.white, fontSize: 20),),
+    );
+  }
+}
+
+class SaveButton extends StatelessWidget {
+  final VoidCallback onSave;
+  final VoidCallback onSkip;
+  const SaveButton({super.key, required this.onSave, required this.onSkip});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ElevatedButton(
+          onPressed: onSave, 
+          style: ElevatedButton.styleFrom(
+            minimumSize: Size(360, 60),
+            backgroundColor: Color.fromRGBO(139, 76, 252, 1),
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(50))
+            )
+          ),
+          child: const Text('Save', style: TextStyle(color: Colors.white, fontSize: 20),),
+        ),
+        TextButton(
+          onPressed: onSave, 
+          style: ElevatedButton.styleFrom(
+            minimumSize: Size(360, 60),
+            foregroundColor: Colors.transparent,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(50))
+            )
+          ),
+          child: const Text('Skip and save', style: TextStyle(color: Color.fromRGBO(139, 76, 252, 1), fontSize: 20),),
+        )
+      ],
     );
   }
 }

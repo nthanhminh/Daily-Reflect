@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class AddMoodStepTwo extends StatefulWidget {
   const AddMoodStepTwo({super.key});
@@ -9,10 +10,10 @@ class AddMoodStepTwo extends StatefulWidget {
 }
 
 class _AddMoodStepTwoState extends State<AddMoodStepTwo> {
-  int recentMoodIndex = -1;
-  int allMoodIndex = -1;
+  List<String> selectedMoods = [];
+  List<String> selectedRecentMoods = [];
   List<String> moods = ['Aww', 'Happy', 'Confused', 'Excited', 'Cool', 'Surprised', 'Peaceful', 'Stressed'];
-  List<String> recentMoods = ['Confused', 'Excited', 'Cool', 'Surprised', 'Peaceful', 'Amazed'];
+  List<String> recentMoods = ['Confused', 'Excited', 'Cool', 'Surprised'];
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -63,6 +64,40 @@ class _AddMoodStepTwoState extends State<AddMoodStepTwo> {
               );
             });
           }),
+          selectedMoods.isEmpty ? const SizedBox(height: 0) : Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Selected (${selectedMoods.length})', style: TextStyle(fontWeight: FontWeight.bold)),
+                  TextButton(
+                    onPressed: () {
+                      setState(() {
+                        selectedMoods.clear();
+                      });
+                    },
+                    child: Text('Clear all', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black))
+                  )
+                ],
+              ),
+            ],
+          ),
+          selectedMoods.isEmpty ? const SizedBox(height: 0) : Container(
+            height: 40,
+            child: ListView.separated(
+              itemCount: selectedMoods.length,
+              shrinkWrap: false,
+              scrollDirection: Axis.horizontal,
+              separatorBuilder: (context, index) => SizedBox(width: 10),
+              itemBuilder: (context, index) {
+                return SelectedItem(itemName: selectedMoods[index], onCancel: () {
+                  setState(() {
+                    selectedMoods.remove(selectedMoods[index]);
+                  });
+                });
+              }),
+          ),
+          
           Container(
             padding: EdgeInsets.only(top: 20),
             width: double.infinity,
@@ -79,11 +114,14 @@ class _AddMoodStepTwoState extends State<AddMoodStepTwo> {
             children: List<Emoji>.generate(recentMoods.length, (index) {
               return Emoji(
                 iconName: recentMoods[index],
-                isPressed: recentMoodIndex == index,
+                isPressed: selectedMoods.contains(recentMoods[index]),
                 onPressed: () {
                   setState(() {
-                    allMoodIndex = -1;
-                    recentMoodIndex = index;
+                    if(!selectedMoods.contains(recentMoods[index])) {
+                      selectedMoods.add(recentMoods[index]);
+                    } else {
+                      selectedMoods.remove(recentMoods[index]);
+                    }
                   });
                 },
               );
@@ -103,11 +141,20 @@ class _AddMoodStepTwoState extends State<AddMoodStepTwo> {
             children: List<Emoji>.generate(moods.length, (index) {
               return Emoji(
                 iconName: moods[index],
-                isPressed: allMoodIndex == index,
+                isPressed: selectedMoods.contains(moods[index]),
                 onPressed: () {
                   setState(() {
-                    allMoodIndex = index;
-                    recentMoodIndex = -1;
+                    if(!selectedMoods.contains(moods[index])) {
+                      selectedMoods.add(moods[index]);
+                      if(!recentMoods.contains(moods[index])) {
+                        recentMoods.insert(0, moods[index]);
+                        if(recentMoods.length > 4) {
+                          recentMoods.removeLast();
+                        }
+                      }
+                    } else {
+                      selectedMoods.remove(moods[index]);
+                    }
                   });
                 },
               );
@@ -122,11 +169,11 @@ class _AddMoodStepTwoState extends State<AddMoodStepTwo> {
 
 class Emoji extends StatelessWidget {
   final String iconName;
-  late String iconUrl = 'assets/icons/' + iconName.toLowerCase() + '.gif';
   final bool isPressed;
-  void Function()? onPressed;
+  final Function()? onPressed;
   Emoji({super.key, required this.iconName, required this.isPressed, required this.onPressed});
-
+  
+  late final String iconUrl = 'assets/icons/' + iconName.toLowerCase() + '.gif';
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -146,8 +193,38 @@ class Emoji extends StatelessWidget {
             ),
           ),
         ),
-        Text(iconName)
+        Text(iconName, style: TextStyle(fontSize: 12))
       ],
+    );
+  }
+}
+
+class SelectedItem extends StatelessWidget {
+  final String itemName;
+  final VoidCallback onCancel;
+  const SelectedItem({super.key, required this.itemName, required this.onCancel});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 40,
+      padding: EdgeInsets.only(left: 30),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(30),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(itemName, style: TextStyle(fontSize: 14)),
+          TextButton(
+            onPressed: onCancel,
+            child: GestureDetector(
+              child: Icon(Icons.close, size: 15, color: Colors.black),
+            )
+          )
+        ]
+      ),
     );
   }
 }
