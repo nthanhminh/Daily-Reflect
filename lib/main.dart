@@ -20,7 +20,7 @@ class DailyReflectApp extends StatelessWidget {
       title: 'DailyReflect',
       initialRoute: '/home',
       routes: {
-        '/home': (context) => LoginPage(),
+        '/home': (context) => Home(),
       },
     );
   }

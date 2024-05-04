@@ -1,8 +1,10 @@
+import 'package:daily_reflect/providers/mood_data.dart';
 import 'package:daily_reflect/screens/AddMoodScreens/add_note.dart';
 import 'package:daily_reflect/screens/AddMoodScreens/select_neutral_mood.dart';
 import 'package:daily_reflect/screens/AddMoodScreens/select_reason.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 const angryIconUrl = 'assets/icons/angry.gif';
 const sadIconUrl = 'assets/icons/disappointed.gif';
@@ -19,7 +21,21 @@ class AddMood extends StatefulWidget {
 
 class _AddMoodState extends State<AddMood> {
   int step = 0;
-  List<Widget> addMoodSteps = [AddMoodStepOne(), AddMoodStepTwo(), SelectReason(), AddNote()];
+  String mood = 'okay';
+  List<String> neutralMoods = [];
+  List<String> reasons = [];
+  String note = '';
+
+  Widget addMoodStep(int step) {
+    if(step == 0) {
+      return AddMoodStepOne();
+    } else if(step == 1) {
+      return AddMoodStepTwo();
+    } else if(step == 2) {
+      return SelectReason();
+    }
+    return AddNote();
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -49,7 +65,7 @@ class _AddMoodState extends State<AddMood> {
               ).createShader(Rect.fromLTRB(0, 400, rectangle.width, rectangle.height));
             },
             blendMode: BlendMode.dstIn,
-            child: addMoodSteps[step]
+            child: addMoodStep(step)
           ),
           Column(
             children: [
@@ -61,7 +77,15 @@ class _AddMoodState extends State<AddMood> {
               SizedBox(height: step < 3 ? 550 : 480),
               step < 3 ? ContinueButton(onPressed: () {setState(() {
                 step++;
-              });},) : SaveButton(onSave: () {}, onSkip: () {})
+              });},) : Consumer<MoodData>(
+                builder: (context, data, child) {
+                  return SaveButton(onSave: () {
+                    Provider.of<MoodData>(context, listen: false).saveData();
+                  }, onSkip: () {
+
+                  });
+                },
+              )
             ],
           ),
         ],
@@ -69,15 +93,9 @@ class _AddMoodState extends State<AddMood> {
     );
   }
 }
-class AddMoodStepOne extends StatefulWidget {
-  const AddMoodStepOne({super.key});
+class AddMoodStepOne extends StatelessWidget {
+  AddMoodStepOne({super.key});
 
-  @override
-  State<AddMoodStepOne> createState() => _AddMoodStepOneState();
-}
-
-class _AddMoodStepOneState extends State<AddMoodStepOne> {
-  int selectedMoodIndex = -1;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -105,32 +123,31 @@ class _AddMoodStepOneState extends State<AddMoodStepOne> {
   }
 
   Widget moodList() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        // Image.asset(angryIconUrl, height: 40, width: 40,),
-        // Image.asset(sadIconUrl, height: 40, width: 40,),
-        // Image.asset(neutralIconUrl, height: 40, width: 40,),
-        // Image.asset(smilingIconUrl, height: 40, width: 40,),
-        // Image.asset(happyIconUrl, height: 40, width: 40,)
-        IconCell(iconUrl: angryIconUrl, isPressed: selectedMoodIndex == 0, onPressed: () {setState(() {
-          selectedMoodIndex = 0;
-        });},),
-        IconCell(iconUrl: sadIconUrl, isPressed: selectedMoodIndex == 1, onPressed: () {
-          setState(() {
-            selectedMoodIndex = 1;
-          });
-        },),
-        IconCell(iconUrl: neutralIconUrl, isPressed: selectedMoodIndex == 2, onPressed: () {setState(() {
-          selectedMoodIndex = 2;
-        });},),
-        IconCell(iconUrl: smilingIconUrl, isPressed: selectedMoodIndex == 3, onPressed: () {setState(() {
-          selectedMoodIndex = 3;
-        });},),
-        IconCell(iconUrl: happyIconUrl, isPressed: selectedMoodIndex == 4, onPressed: () {setState(() {
-          selectedMoodIndex = 4;
-        });},),
-      ],
+    return Consumer<MoodData>(
+      builder: (context, moodData, child) {
+        String todayMood = moodData.todayMood;   
+        var moodDataProvider = Provider.of<MoodData>(context, listen: false);
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            IconCell(iconUrl: angryIconUrl, isPressed: todayMood == 'angry', onPressed: () {
+              moodDataProvider.updateTodayMood('angry');
+            },),
+            IconCell(iconUrl: sadIconUrl, isPressed: todayMood == 'sad', onPressed: () {
+              moodDataProvider.updateTodayMood('sad');
+            },),
+            IconCell(iconUrl: neutralIconUrl, isPressed: todayMood == 'neutral', onPressed: () {
+              moodDataProvider.updateTodayMood('neutral');
+            },),
+            IconCell(iconUrl: smilingIconUrl, isPressed: todayMood == 'okay', onPressed: () {
+              moodDataProvider.updateTodayMood('okay');
+            },),
+            IconCell(iconUrl: happyIconUrl, isPressed: todayMood == 'happy', onPressed: () {
+              moodDataProvider.updateTodayMood('happy');
+            },),
+          ],
+        );
+      }
     );
   }
 }

@@ -18,35 +18,16 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset : false,
       body: Column(
         children: [
-          Stack(
-            alignment: Alignment.bottomLeft,
-            children: [
-              Container(
-                height: 150,
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [Color.fromRGBO(244, 135, 250, 1), Color.fromRGBO(139, 76, 252, 1)]
-                  )
-                ),
-              ),
-              
-              // Padding(
-              //   padding: EdgeInsets.only(bottom: 20.0, left: 20.0),
-              //   child: Column(
-              //     crossAxisAlignment: CrossAxisAlignment.start,
-              //     children: [
-              //       Text('Hello there', style: GoogleFonts.kanit(
-              //         textStyle: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.white, decoration: TextDecoration.none)
-              //       ),),
-              //       Text('Welcome back', style: GoogleFonts.kanit(
-              //         textStyle: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.white, decoration: TextDecoration.none)
-              //       ),)
-              //     ],
-              //   ),
-              // )
-            ]
+          Container(
+            height: 150,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Color.fromRGBO(244, 135, 250, 1), Color.fromRGBO(139, 76, 252, 1)]
+              )
+            ),
           ),
           Expanded(
             child: Container(

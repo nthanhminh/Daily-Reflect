@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
+import 'package:daily_reflect/providers/mood_data.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
 class AddMoodStepTwo extends StatefulWidget {
   const AddMoodStepTwo({super.key});
@@ -10,13 +10,10 @@ class AddMoodStepTwo extends StatefulWidget {
 }
 
 class _AddMoodStepTwoState extends State<AddMoodStepTwo> {
-  List<String> selectedMoods = [];
-  List<String> selectedRecentMoods = [];
   List<String> searchMoods = [];
-  List<String> moods = ['Aww', 'Happy', 'Confused', 'Excited', 'Cool', 'Surprised', 'Peaceful', 'Stressed'];
-  List<String> recentMoods = ['Confused', 'Excited', 'Cool', 'Surprised'];
+  final List<String> moods = ['Aww', 'Happy', 'Confused', 'Excited', 'Cool', 'Surprised', 'Peaceful', 'Stressed'];
   final TextEditingController _controller = TextEditingController();
-  @override
+  
 
   void searchMood(String query) {
     var suggestions = <String>[];
@@ -33,182 +30,181 @@ class _AddMoodStepTwoState extends State<AddMoodStepTwo> {
       print(searchMoods);
     });
   }
+  @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          const SizedBox(height: 60),
-          const Text(
-            'Choose the emotion that',
-            style: TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-            )
-          ),
-          const Text(
-            'make you feel neutral',
-            style: TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-            )
-          ),
-          const SizedBox(height: 10),
-          const Text(
-            'Select at least 1 emotion'
-          ),
-          const SizedBox(height: 20,),
-          
-          // search textfield
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(30))
-            ),
-            child: TextField(
-              controller: _controller,
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search),
-                suffixIcon: IconButton(onPressed: () {
-                  _controller.clear();
-                  searchMood('');
-                }, icon: Icon(Icons.clear)),
-                contentPadding: EdgeInsets.all(15),
-                hintText: 'Search neutral mood',
-                hintStyle: TextStyle(fontWeight: FontWeight.w300, color: Colors.black),
-                border: const OutlineInputBorder(
-                  borderSide: BorderSide(
-                    width: 8.0,
-                  ),
-                  borderRadius: BorderRadius.all(Radius.circular(30))
-                  
+    return Consumer<MoodData>(
+      builder: (context, data, child) {
+        var dataProvider = Provider.of<MoodData>(context, listen: false);
+        List<String> selectedMoods = data.selectedNeutralMoods;
+        List<String> recentMoods = data.recentNeutralMoods;
+        return SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 60),
+              const Text(
+                'Choose the emotion that',
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
                 )
               ),
-              onChanged: searchMood,
-            ),
-          ),
-          const SizedBox(height: 10,),
-
-          // suggested moods
-          searchMoods.isEmpty ? const SizedBox(height: 0) : Container(
-            height: 40,
-            child: ListView.separated(
-              itemCount: searchMoods.length,
-              shrinkWrap: false,
-              scrollDirection: Axis.horizontal,
-              separatorBuilder: (context, index) => SizedBox(width: 10),
-              itemBuilder: (context, index) {
-                return SearchedItem(itemName: searchMoods[index], onChoose: () {
-                  setState(() {
-                    if(!selectedMoods.contains(searchMoods[index])) {
-                      selectedMoods.add(searchMoods[index]);
+              const Text(
+                'make you feel neutral',
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                )
+              ),
+              const SizedBox(height: 10),
+              const Text(
+                'Select at least 1 emotion'
+              ),
+              const SizedBox(height: 20,),
+              
+              // search textfield
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(30))
+                ),
+                child: TextField(
+                  controller: _controller,
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.search),
+                    suffixIcon: IconButton(onPressed: () {
                       _controller.clear();
                       searchMood('');
-                    }
-                  });
-                });
-              }),
-          ),
+                    }, icon: Icon(Icons.clear)),
+                    contentPadding: EdgeInsets.all(15),
+                    hintText: 'Search neutral mood',
+                    hintStyle: TextStyle(fontWeight: FontWeight.w300, color: Colors.black),
+                    border: const OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 8.0,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(30))
+                      
+                    )
+                  ),
+                  onChanged: searchMood,
+                ),
+              ),
+              const SizedBox(height: 10,),
 
-          // selected mood line
-          selectedMoods.isEmpty ? const SizedBox(height: 0) : Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              // suggested moods
+              searchMoods.isEmpty ? const SizedBox(height: 0) : Container(
+                height: 40,
+                child: ListView.separated(
+                  itemCount: searchMoods.length,
+                  shrinkWrap: false,
+                  scrollDirection: Axis.horizontal,
+                  separatorBuilder: (context, index) => SizedBox(width: 10),
+                  itemBuilder: (context, index) {
+                    return SearchedItem(itemName: searchMoods[index], onChoose: () {
+                        if(!selectedMoods.contains(searchMoods[index])) {
+                          dataProvider.addNeutralMood(searchMoods[index]);
+                          _controller.clear();
+                          searchMood('');
+                        }
+                    });
+                  }),
+              ),
+
+              // selected mood line
+              selectedMoods.isEmpty ? const SizedBox(height: 0) : Column(
                 children: [
-                  Text('Selected (${selectedMoods.length})', style: TextStyle(fontWeight: FontWeight.bold)),
-                  TextButton(
-                    onPressed: () {
-                      setState(() {
-                        selectedMoods.clear();
-                      });
-                    },
-                    child: Text('Clear all', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black))
-                  )
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Selected (${selectedMoods.length})', style: TextStyle(fontWeight: FontWeight.bold)),
+                      TextButton(
+                        onPressed: () {
+                          dataProvider.clearSelectedNeutralMoods();
+                        },
+                        child: Text('Clear all', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black))
+                      )
+                    ],
+                  ),
                 ],
               ),
+              selectedMoods.isEmpty ? const SizedBox(height: 0) : Container(
+                height: 40,
+                child: ListView.separated(
+                  itemCount: selectedMoods.length,
+                  shrinkWrap: false,
+                  scrollDirection: Axis.horizontal,
+                  separatorBuilder: (context, index) => SizedBox(width: 10),
+                  itemBuilder: (context, index) {
+                    return SelectedItem(itemName: selectedMoods[index], onCancel: () {
+                      dataProvider.removeNeutralMood(selectedMoods[index]);
+                    });
+                  }),
+              ),
+              const SizedBox(height: 10,),
+              Container(
+                width: double.infinity,
+                child: Text('Recently used', style: TextStyle(fontWeight: FontWeight.bold),),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              GridView.count(
+                physics: NeverScrollableScrollPhysics(),
+                crossAxisCount: 4,
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                children: List<Emoji>.generate(recentMoods.length, (index) {
+                  return Emoji(
+                    iconName: recentMoods[index],
+                    isPressed: selectedMoods.contains(recentMoods[index]),
+                    onPressed: () {
+                      if(!selectedMoods.contains(recentMoods[index])) {
+                        dataProvider.addNeutralMood(recentMoods[index]);
+                      } else {
+                        dataProvider.removeNeutralMood(recentMoods[index]);
+                      }
+                    },
+                  );
+                }),
+              ),
+              const SizedBox(height: 20),
+              Container(
+                width: double.infinity,
+                child: Text('All emotions', style: TextStyle(fontWeight: FontWeight.bold)),
+              ),
+              const SizedBox(height: 20),
+              GridView.count(
+                physics: NeverScrollableScrollPhysics(),
+                crossAxisCount: 4,
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                children: List<Emoji>.generate(moods.length, (index) {
+                  return Emoji(
+                    iconName: moods[index],
+                    isPressed: selectedMoods.contains(moods[index]),
+                    onPressed: () {
+                      if(!selectedMoods.contains(moods[index])) {
+                        dataProvider.addNeutralMood(moods[index]);
+                        if(!recentMoods.contains(moods[index])) {
+                          dataProvider.addRecentNeutralMood(moods[index]);
+                          if(recentMoods.length > 4) {
+                            dataProvider.removeRecentNeutralMood();
+                          }
+                        }
+                      } else {
+                        dataProvider.removeNeutralMood(moods[index]);
+                      }
+                    },
+                  );
+                }),
+              ),
+              const SizedBox(height: 100),
             ],
           ),
-          selectedMoods.isEmpty ? const SizedBox(height: 0) : Container(
-            height: 40,
-            child: ListView.separated(
-              itemCount: selectedMoods.length,
-              shrinkWrap: false,
-              scrollDirection: Axis.horizontal,
-              separatorBuilder: (context, index) => SizedBox(width: 10),
-              itemBuilder: (context, index) {
-                return SelectedItem(itemName: selectedMoods[index], onCancel: () {
-                  setState(() {
-                    selectedMoods.remove(selectedMoods[index]);
-                  });
-                });
-              }),
-          ),
-          const SizedBox(height: 10,),
-          Container(
-            width: double.infinity,
-            child: Text('Recently used', style: TextStyle(fontWeight: FontWeight.bold),),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          GridView.count(
-            physics: NeverScrollableScrollPhysics(),
-            crossAxisCount: 4,
-            shrinkWrap: true,
-            scrollDirection: Axis.vertical,
-            children: List<Emoji>.generate(recentMoods.length, (index) {
-              return Emoji(
-                iconName: recentMoods[index],
-                isPressed: selectedMoods.contains(recentMoods[index]),
-                onPressed: () {
-                  setState(() {
-                    if(!selectedMoods.contains(recentMoods[index])) {
-                      selectedMoods.add(recentMoods[index]);
-                    } else {
-                      selectedMoods.remove(recentMoods[index]);
-                    }
-                  });
-                },
-              );
-            }),
-          ),
-          const SizedBox(height: 20),
-          Container(
-            width: double.infinity,
-            child: Text('All emotions', style: TextStyle(fontWeight: FontWeight.bold)),
-          ),
-          const SizedBox(height: 20),
-          GridView.count(
-            physics: NeverScrollableScrollPhysics(),
-            crossAxisCount: 4,
-            shrinkWrap: true,
-            scrollDirection: Axis.vertical,
-            children: List<Emoji>.generate(moods.length, (index) {
-              return Emoji(
-                iconName: moods[index],
-                isPressed: selectedMoods.contains(moods[index]),
-                onPressed: () {
-                  setState(() {
-                    if(!selectedMoods.contains(moods[index])) {
-                      selectedMoods.add(moods[index]);
-                      if(!recentMoods.contains(moods[index])) {
-                        recentMoods.insert(0, moods[index]);
-                        if(recentMoods.length > 4) {
-                          recentMoods.removeLast();
-                        }
-                      }
-                    } else {
-                      selectedMoods.remove(moods[index]);
-                    }
-                  });
-                },
-              );
-            }),
-          ),
-          const SizedBox(height: 100),
-        ],
-      ),
+        );
+      },
     );
+    
   }
 }
 
