@@ -63,14 +63,17 @@ class _LoginPageState extends State<LoginPage> {
                     )),
                   ),
                   const SizedBox(height: 30),
-                  const Row(
-                    children: [
-                      Text('Email', style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.black38,
-                        decoration: TextDecoration.none
-                      )),
-                    ],
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: 4.0),
+                    child: Row(
+                      children: [
+                        Text('Email', style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.black38,
+                          decoration: TextDecoration.none
+                        )),
+                      ],
+                    ),
                   ),
                   const TextField(
                     decoration: InputDecoration(
@@ -85,14 +88,17 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  const Row(
-                    children: [
-                      Text('Password', style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.black38,
-                        decoration: TextDecoration.none
-                      )),
-                    ],
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: 4.0),
+                    child: Row(
+                      children: [
+                        Text('Password', style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.black38,
+                          decoration: TextDecoration.none
+                        )),
+                      ],
+                    ),
                   ),
                   const TextField(
                     decoration: InputDecoration(
@@ -143,7 +149,9 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.all(Radius.circular(10))
                       )
                     ),
-                    child: const Text('Login ', style: TextStyle(color: Colors.white, fontSize: 20),),
+                    child: Text('Login ', style: GoogleFonts.josefinSans(
+                      textStyle: TextStyle(color: Colors.white, fontSize: 20),),
+                    )
                   ),
                   const SizedBox(height: 20),
                   const Row(
