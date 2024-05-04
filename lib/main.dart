@@ -1,4 +1,5 @@
 import 'package:daily_reflect/screens/HomeScreen/Home.dart';
+import 'package:daily_reflect/screens/Login/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -19,7 +20,7 @@ class DailyReflectApp extends StatelessWidget {
       title: 'DailyReflect',
       initialRoute: '/home',
       routes: {
-        '/home': (context) => Home(),
+        '/home': (context) => LoginPage(),
       },
     );
   }

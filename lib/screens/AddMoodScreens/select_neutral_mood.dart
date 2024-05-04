@@ -12,9 +12,27 @@ class AddMoodStepTwo extends StatefulWidget {
 class _AddMoodStepTwoState extends State<AddMoodStepTwo> {
   List<String> selectedMoods = [];
   List<String> selectedRecentMoods = [];
+  List<String> searchMoods = [];
   List<String> moods = ['Aww', 'Happy', 'Confused', 'Excited', 'Cool', 'Surprised', 'Peaceful', 'Stressed'];
   List<String> recentMoods = ['Confused', 'Excited', 'Cool', 'Surprised'];
+  final TextEditingController _controller = TextEditingController();
   @override
+
+  void searchMood(String query) {
+    var suggestions = <String>[];
+    if(query != '')  {
+      suggestions = moods.where((mood) {
+        final input = query.toLowerCase();
+        return mood.toLowerCase().contains(input);
+      }).toList();
+    }
+    
+
+    setState(() {
+      searchMoods = suggestions;
+      print(searchMoods);
+    });
+  }
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
@@ -39,31 +57,59 @@ class _AddMoodStepTwoState extends State<AddMoodStepTwo> {
             'Select at least 1 emotion'
           ),
           const SizedBox(height: 20,),
-          SearchAnchor(
-              builder: (BuildContext context, SearchController controller) {
-            return SearchBar(
-              hintText: 'Search emotion',
-              backgroundColor: MaterialStateColor.resolveWith((states) => Colors.white), 
-              elevation: MaterialStateProperty.all(0.0),
-              controller: controller,
-              padding: const MaterialStatePropertyAll<EdgeInsets>(
-                  EdgeInsets.symmetric(horizontal: 16.0)),
-              onChanged: (_) {
-                controller.openView();
-              },
-              leading: const Icon(Icons.search),
-            );
-          }, suggestionsBuilder:
-                  (BuildContext context, SearchController controller) {
-            return List<ListTile>.generate(moods.length, (index) {
-              return ListTile(
-                title: Text(moods[index]),
-                onTap: () {setState(() {
-                  controller.closeView(moods[index]);
-                });}
-              );
-            });
-          }),
+          
+          // search textfield
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(30))
+            ),
+            child: TextField(
+              controller: _controller,
+              decoration: InputDecoration(
+                prefixIcon: Icon(Icons.search),
+                suffixIcon: IconButton(onPressed: () {
+                  _controller.clear();
+                  searchMood('');
+                }, icon: Icon(Icons.clear)),
+                contentPadding: EdgeInsets.all(15),
+                hintText: 'Search neutral mood',
+                hintStyle: TextStyle(fontWeight: FontWeight.w300, color: Colors.black),
+                border: const OutlineInputBorder(
+                  borderSide: BorderSide(
+                    width: 8.0,
+                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(30))
+                  
+                )
+              ),
+              onChanged: searchMood,
+            ),
+          ),
+          const SizedBox(height: 10,),
+
+          // suggested moods
+          searchMoods.isEmpty ? const SizedBox(height: 0) : Container(
+            height: 40,
+            child: ListView.separated(
+              itemCount: searchMoods.length,
+              shrinkWrap: false,
+              scrollDirection: Axis.horizontal,
+              separatorBuilder: (context, index) => SizedBox(width: 10),
+              itemBuilder: (context, index) {
+                return SearchedItem(itemName: searchMoods[index], onChoose: () {
+                  setState(() {
+                    if(!selectedMoods.contains(searchMoods[index])) {
+                      selectedMoods.add(searchMoods[index]);
+                      _controller.clear();
+                      searchMood('');
+                    }
+                  });
+                });
+              }),
+          ),
+
+          // selected mood line
           selectedMoods.isEmpty ? const SizedBox(height: 0) : Column(
             children: [
               Row(
@@ -97,9 +143,8 @@ class _AddMoodStepTwoState extends State<AddMoodStepTwo> {
                 });
               }),
           ),
-          
+          const SizedBox(height: 10,),
           Container(
-            padding: EdgeInsets.only(top: 20),
             width: double.infinity,
             child: Text('Recently used', style: TextStyle(fontWeight: FontWeight.bold),),
           ),
@@ -219,10 +264,34 @@ class SelectedItem extends StatelessWidget {
           Text(itemName, style: TextStyle(fontSize: 14)),
           TextButton(
             onPressed: onCancel,
-            child: GestureDetector(
-              child: Icon(Icons.close, size: 15, color: Colors.black),
-            )
+            child: Icon(Icons.close, size: 15, color: Colors.black)
           )
+        ]
+      ),
+    );
+  }
+}
+
+class SearchedItem extends StatelessWidget {
+  final String itemName;
+  final VoidCallback onChoose;
+  const SearchedItem({super.key, required this.itemName, required this.onChoose});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 40,
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(30),
+      ),
+      child: Row(
+        children: [
+          GestureDetector(
+            child: Text(itemName, style: TextStyle(fontSize: 14)),
+            onTap: onChoose,
+          ),
         ]
       ),
     );

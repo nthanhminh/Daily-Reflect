@@ -11,8 +11,23 @@ class SelectReason extends StatefulWidget {
 
 class _SelectReasonState extends State<SelectReason> {
   List<String> selectedReasons = [];
+  List<String> searchReasons = [];
   List<String> recentReasons = ['Work', 'Hobbies', 'Family', 'Breakup'];
   List<String> reasons = ['Work', 'Hobbies', 'Family', 'Breakup', 'Weather', 'Wife'];
+  final TextEditingController _controller = TextEditingController();
+
+  void searchReason(String query) {
+    var suggestions = <String>[];
+    if(query != '') {
+      suggestions = reasons.where((mood) {
+          final input = query.toLowerCase();
+          return mood.toLowerCase().contains(input);
+        }).toList();
+    }
+    setState(() {
+      searchReasons = suggestions;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -35,31 +50,53 @@ class _SelectReasonState extends State<SelectReason> {
         const SizedBox(height: 10),
         const Text('Select reasons that reflated your emotions'),
         const SizedBox(height: 20),
-        SearchAnchor(
-            builder: (BuildContext context, SearchController controller) {
-          return SearchBar(
-            hintText: 'Search reason',
-            backgroundColor: MaterialStateColor.resolveWith((states) => Colors.white), 
-            elevation: MaterialStateProperty.all(0.0),
-            controller: controller,
-            padding: const MaterialStatePropertyAll<EdgeInsets>(
-                EdgeInsets.symmetric(horizontal: 16.0)),
-            onChanged: (_) {
-              controller.openView();
-            },
-            leading: const Icon(Icons.search),
-          );
-        }, suggestionsBuilder:
-                (BuildContext context, SearchController controller) {
-          return List<ListTile>.generate(reasons.length, (index) {
-            return ListTile(
-              title: Text(reasons[index]),
-              onTap: () {setState(() {
-                controller.closeView(reasons[index]);
-              });}
-            );
-          });
-        }),
+        Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(30))
+            ),
+            child: TextField(
+              controller: _controller,
+              decoration: InputDecoration(
+                prefixIcon: Icon(Icons.search),
+                suffixIcon: IconButton(onPressed: () {
+                  _controller.clear();
+                  searchReason('');
+                }, icon: Icon(Icons.clear)),
+                contentPadding: EdgeInsets.all(15),
+                hintText: 'Search reason',
+                hintStyle: TextStyle(fontWeight: FontWeight.w300, color: Colors.black),
+                border: const OutlineInputBorder(
+                  borderSide: BorderSide(
+                    width: 8.0,
+                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(30))
+                  
+                )
+              ),
+              onChanged: searchReason,
+            ),
+          ),
+        const SizedBox(height: 10,),
+        searchReasons.isEmpty ? const SizedBox(height: 0) : Container(
+            height: 40,
+            child: ListView.separated(
+              itemCount: searchReasons.length,
+              shrinkWrap: false,
+              scrollDirection: Axis.horizontal,
+              separatorBuilder: (context, index) => SizedBox(width: 10),
+              itemBuilder: (context, index) {
+                return SearchedItem(itemName: searchReasons[index], onChoose: () {
+                  setState(() {
+                    if(!selectedReasons.contains(searchReasons[index])) {
+                      selectedReasons.add(searchReasons[index]);
+                      _controller.clear();
+                      searchReason('');
+                    }
+                  });
+                });
+              }),
+          ),
         selectedReasons.isEmpty ? const SizedBox(height: 0) : Column(
           children: [
             Row(
