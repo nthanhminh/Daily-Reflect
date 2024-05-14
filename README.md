@@ -1,16 +1,31 @@
-# daily_reflect
+# Daily Reflect
 
-A new Flutter project.
+## Note
+This project is currently in progress
 
-## Getting Started
+## Description
+A lifestyle application that acts as an online diary and minimal-interaction social platform
+- Actor: Multiple users on Android and iOS
+- Business logic:
+      Single user: Login, sign up; Create, Delete and Manage Entries and Moods; Set Mood and Status for different times during the day; Receive interactive feedback in chart form about their entries; Settings
+      Multiple user: Make friends through code request; Manage friend lists; Share entries; Create posts and share them; React with emoticons about other people's posts
 
-This project is a starting point for a Flutter application.
+## Tech Stack:
+- Language: Dart
+- Framework: Flutter
+- Database: MySQL
+- Backend structure: Microservices
+- Backend language (Phu): Java, Java Spring, Spring Boot, Jackson
+- Backend language (Minh): JavaScript, ExpressJS
+- Build tool: Maven
+- Design pattern: C4 Model, ER Diagram, Microservices
+- Operating system: Android and iOS
+- Source version control: Git
 
-A few resources to get you started if this is your first Flutter project:
+## Contributors:
+- Ngo Thanh Minh: https://github.com/nthanhminh
+- Nguyen Huu Phu: https://github.com/PhuNguyenUET
+- Nguyen Hung Dung: https://github.com/hungdungn47
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Features
+To be added when demonstration is ready
