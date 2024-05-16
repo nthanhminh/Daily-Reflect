@@ -1,5 +1,6 @@
 import 'package:daily_reflect/screens/HomeScreen/Home.dart';
 import 'package:daily_reflect/screens/Login/login_page.dart';
+import 'package:daily_reflect/screens/Login/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,15 +13,16 @@ class DailyReflectApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData themeData = ThemeData(
-      useMaterial3: true,
-      brightness: Brightness.light);
+    final ThemeData themeData =
+        ThemeData(useMaterial3: true, brightness: Brightness.light);
     return GetMaterialApp(
       theme: themeData,
       title: 'DailyReflect',
-      initialRoute: '/home',
+      initialRoute: '/login',
       routes: {
-        '/home': (context) => LoginPage(),
+        '/home': (context) => Home(),
+        '/login': (context) => LoginPage(),
+        '/signup': (context) => SignUpPage(),
       },
     );
   }

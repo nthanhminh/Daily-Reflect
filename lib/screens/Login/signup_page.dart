@@ -1,23 +1,23 @@
 import 'package:daily_reflect/utilities/auth_controller.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class LoginPage extends StatefulWidget {
-  LoginPage({super.key});
+class SignUpPage extends StatefulWidget {
+  SignUpPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _emailController = TextEditingController();
 
   final TextEditingController _passwordController = TextEditingController();
 
-  late bool _remember_me;
   late bool _passwordVisible;
+
   late bool _isValidate;
 
   @override
@@ -25,7 +25,6 @@ class _LoginPageState extends State<LoginPage> {
     // TODO: implement initState
     super.initState();
     _passwordVisible = false;
-    _remember_me = false;
     _isValidate = true;
   }
 
@@ -53,12 +52,12 @@ class _LoginPageState extends State<LoginPage> {
                     children: [
                       const SizedBox(height: 20),
                       Text(
-                        'Login',
+                        'Sign up',
                         style: GoogleFonts.josefinSans(
                             textStyle: const TextStyle(
                           color: Colors.black,
                           decoration: TextDecoration.none,
-                          fontSize: 30,
+                          fontSize: 25,
                         )),
                       ),
                       const SizedBox(height: 10),
@@ -121,7 +120,7 @@ class _LoginPageState extends State<LoginPage> {
                               color: Colors.black38),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               width: 8.0,
                             ),
                           ),
@@ -140,52 +139,18 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Checkbox(
-                                  value: _remember_me,
-                                  onChanged: (value) {
-                                    setState(
-                                      () {
-                                        _remember_me = value!;
-                                      },
-                                    );
-                                  }),
-                              Text('Remember me'),
-                            ],
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(right: 15.0),
-                            child: Text(
-                              'Forgot password?',
-                              style: TextStyle(
-                                  shadows: [
-                                    Shadow(
-                                        color: Colors.black,
-                                        offset: Offset(0, -5))
-                                  ],
-                                  color: Colors.transparent,
-                                  decoration: TextDecoration.underline,
-                                  decorationThickness: 2,
-                                  decorationColor:
-                                      Color.fromRGBO(139, 76, 252, 1)),
-                            ),
-                          )
-                        ],
-                      ),
                       const SizedBox(height: 20),
                       ElevatedButton(
                           onPressed: () async {
                             if (_emailController.text.isNotEmpty &&
                                 _passwordController.text.isNotEmpty) {
-                              String res = await AuthController.login(
+                              AuthState res = await AuthController.signUp(
                                 _emailController.text.trim(),
                                 _passwordController.text.trim(),
                               );
-                              Navigator.of(context).pushNamed('/home');
+                              if (res == AuthState.SIGNUP_OK) {
+                                Navigator.of(context).pop();
+                              }
                             } else {
                               setState(() {
                                 _isValidate = false;
@@ -199,7 +164,7 @@ class _LoginPageState extends State<LoginPage> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(10)))),
                           child: Text(
-                            'Login ',
+                            'Sign up',
                             style: GoogleFonts.josefinSans(
                               textStyle:
                                   TextStyle(color: Colors.white, fontSize: 20),
@@ -208,17 +173,17 @@ class _LoginPageState extends State<LoginPage> {
                       const SizedBox(height: 20),
                       Row(
                         children: [
-                          const Text('Don\'t have an account?',
+                          const Text('Already have an account?',
                               style: TextStyle(
                                   color: Colors.black54,
                                   fontWeight: FontWeight.w600)),
                           const SizedBox(width: 10),
                           GestureDetector(
                             onTap: () {
-                              Navigator.of(context).pushNamed('/signup');
+                              Navigator.of(context).pop();
                             },
                             child: const Text(
-                              'Sign up',
+                              'Login',
                               style: TextStyle(
                                   shadows: [
                                     Shadow(
@@ -241,7 +206,7 @@ class _LoginPageState extends State<LoginPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           // Left horizontal line
-                          Expanded(
+                          const Expanded(
                             child: Divider(
                               color: Colors.black26,
                             ),
