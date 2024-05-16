@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
+
 class MoodData extends ChangeNotifier {
   String todayMood = 'neutral';
 
   List<String> selectedNeutralMoods = [];
-  List<String> recentNeutralMoods = ['Confused', 'Excited', 'Cool', 'Surprised'];
+  List<String> recentNeutralMoods = [
+    'Confused',
+    'Excited',
+    'Cool',
+    'Surprised'
+  ];
   List<String> selectedReasons = [];
   List<String> recentReasons = ['Work', 'Hobbies', 'Family', 'Breakup'];
   String note = '';
@@ -33,6 +39,11 @@ class MoodData extends ChangeNotifier {
     notifyListeners();
   }
 
+  void removeSpecificRecentNeutralMood(String value) {
+    recentNeutralMoods.remove(value);
+    notifyListeners();
+  }
+
   void clearSelectedNeutralMoods() {
     selectedNeutralMoods.clear();
     notifyListeners();
@@ -46,7 +57,7 @@ class MoodData extends ChangeNotifier {
   void removeSelectedReasons(String value) {
     selectedReasons.remove(value);
     notifyListeners();
-  } 
+  }
 
   void clearSelectedReasons() {
     selectedReasons.clear();
