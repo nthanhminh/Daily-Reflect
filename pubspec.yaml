@@ -44,6 +44,11 @@ dependencies:
   material_symbols_icons: ^4.2716.0
   flutter_staggered_animations: ^1.1.1
   fl_chart: ^0.66.2
+  json_annotation: ^4.8.1
+  freezed: ^2.4.7
+  freezed_annotation:
+  json_serializable: ^6.7.1
+  build_runner: ^2.4.9
   fluttericon: ^2.0.0
 
 dev_dependencies:
