@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
+import '../../providers/mood_data.dart';
+import '../AddMoodScreens/select_mood.dart';
+import '../CommonService/NavBarController.dart';
+
 class ConvexNavigationBar extends StatelessWidget {
   const ConvexNavigationBar({super.key});
 
