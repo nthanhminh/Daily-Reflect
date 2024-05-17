@@ -18,7 +18,7 @@ class DailyReflectApp extends StatelessWidget {
     return GetMaterialApp(
       theme: themeData,
       title: 'DailyReflect',
-      initialRoute: '/login',
+      initialRoute: '/home',
       routes: {
         '/home': (context) => Home(),
         '/login': (context) => LoginPage(),
