@@ -1,6 +1,9 @@
+import 'package:daily_reflect/front_end/Post/DataUpload/DataUpload.dart';
+import 'package:daily_reflect/front_end/Post/PostUpload/PostUpload.dart';
 import 'package:flutter/material.dart';
 
-import 'front_end/Post/Post.dart';
+import 'front_end/Post/PostView/Post.dart';
+import 'front_end/Profile/Profile.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,7 +23,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => Post(),
+        '/': (context) => const DataUpload(),
       },
     );
   }
