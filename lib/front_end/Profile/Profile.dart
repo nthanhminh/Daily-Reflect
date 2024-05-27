@@ -38,14 +38,6 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                 children: [
                   IconButton(
                     icon: Icon(
-                      Icons.arrow_back,
-                      size: 32,
-                      color: Colors.white.withOpacity(0.9),
-                    ),
-                    onPressed: (){},
-                  ),
-                  IconButton(
-                    icon: Icon(
                       Icons.settings,
                       size: 32,
                       color: Colors.white.withOpacity(0.9),

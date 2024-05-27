@@ -1,6 +1,9 @@
 import 'package:daily_reflect/models/MoodOfDay.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
+
+import '../../generated/assets.dart';
 
 class DayTile extends StatelessWidget {
   DayTile(
@@ -55,10 +58,8 @@ class DayTile extends StatelessWidget {
                 image: AssetImage(''),
                 height: 10,
                 width: 10,
-              ),*/ Icon(
-                Icons.alarm,
-                color: moodOfDay.isToday ? Colors.white : Colors.black,
-              )
+              ),*/
+              SvgPicture.asset(Assets.iconsEmojiLove, width: 20,height: 20)
             ),
           )
         ],

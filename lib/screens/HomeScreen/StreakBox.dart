@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:material_symbols_icons/symbols.dart';
+
+import '../../generated/assets.dart';
 
 class StreakBox extends StatelessWidget {
   StreakBox({super.key, required this.streakCount});
@@ -18,12 +21,7 @@ class StreakBox extends StatelessWidget {
           child: Row(
             children: [
               SizedBox(width: 2,),
-              Icon(
-                Symbols.fireplace,
-                size: 25,
-                weight: 300,
-                color: Colors.purple,
-              ),
+              SvgPicture.asset(Assets.iconsFireSvgrepoCom, width: 20,height: 20, colorFilter: ColorFilter.mode(Colors.orange, BlendMode.srcIn),),
               SizedBox(width: 7,),
               Text(
                 streakCount.toString(),

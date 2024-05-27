@@ -1,8 +1,12 @@
+import 'package:daily_reflect/front_end/Profile/Profile.dart';
+import 'package:daily_reflect/screens/CommonComponent/ScaffoldWrapper.dart';
 import 'package:daily_reflect/screens/HomeScreen/Home.dart';
 import 'package:daily_reflect/screens/Login/login_page.dart';
 import 'package:daily_reflect/screens/Login/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import 'front_end/Post/PostView/Post.dart';
 
 void main() async {
   runApp(const DailyReflectApp());
@@ -18,11 +22,11 @@ class DailyReflectApp extends StatelessWidget {
     return GetMaterialApp(
       theme: themeData,
       title: 'DailyReflect',
-      initialRoute: '/home',
+      initialRoute: '/',
       routes: {
-        '/home': (context) => Home(),
-        '/login': (context) => LoginPage(),
-        '/signup': (context) => SignUpPage(),
+        '/': (context) => ScaffoldWrapper(),
+        //'/home': (context) => Home(),
+        //'/history': (context) => History(weeksOfArticles: SampleData.weeksOfMoods),
       },
     );
   }

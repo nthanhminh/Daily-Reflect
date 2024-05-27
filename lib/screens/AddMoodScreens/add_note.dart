@@ -33,7 +33,7 @@ class _AddNoteState extends State<AddNote> {
               const SizedBox(height: 30,),
               SizedBox(
                 width: 400,
-                height: 260,
+                height: 200,
                 child: TextField(
                   controller: _controller,
                   onChanged: (value) {
@@ -58,6 +58,7 @@ class _AddNoteState extends State<AddNote> {
                   ),
                 ),
               ),
+              SizedBox(height: 20,),
               ElevatedButton(
                 onPressed: () {}, 
                 style: ElevatedButton.styleFrom(

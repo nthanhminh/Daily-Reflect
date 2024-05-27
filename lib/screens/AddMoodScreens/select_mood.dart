@@ -4,6 +4,7 @@ import 'package:daily_reflect/screens/AddMoodScreens/select_neutral_mood.dart';
 import 'package:daily_reflect/screens/AddMoodScreens/select_reason.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 const angryIconUrl = 'assets/icons/angry.gif';
@@ -40,7 +41,7 @@ class _AddMoodState extends State<AddMood> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(15),
-      height: 700,
+      height: 600,
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(20)),
         gradient: LinearGradient(
@@ -68,13 +69,13 @@ class _AddMoodState extends State<AddMood> {
             child: addMoodStep(step)
           ),
           Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               TopBar(step: step, goBack: () {
                 setState(() {
                   step--;
                 });
               }),
-              SizedBox(height: step < 3 ? 550 : 480),
               step < 3 ? ContinueButton(onPressed: () {setState(() {
                 step++;
               });},) : Consumer<MoodData>(
@@ -115,9 +116,12 @@ class AddMoodStepOne extends StatelessWidget {
         const Text(
           'feeling at this moment'
         ),
-        const SizedBox(height: 180),
-        moodList(),
-        const SizedBox(height: 180),
+        Expanded(
+          child: Center(
+            child: moodList()
+          ),
+        ),
+        SizedBox(height: 60)
       ],
     );
   }

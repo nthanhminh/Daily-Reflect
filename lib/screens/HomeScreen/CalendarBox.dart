@@ -1,4 +1,6 @@
+import 'package:daily_reflect/generated/assets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 
@@ -23,12 +25,7 @@ class CalendarBox extends StatelessWidget {
                 style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400),
               ),
               SizedBox(width: 5,),
-              Icon(
-                Symbols.calendar_add_on_rounded,
-                size: 25,
-                weight: 300,
-                color: Colors.purple,
-              )
+              SvgPicture.asset(Assets.iconsCalendarDaysSvgrepoCom, width: 20,height: 20, colorFilter: ColorFilter.mode(Colors.blueAccent, BlendMode.srcIn))
             ],
           ),
         ),
