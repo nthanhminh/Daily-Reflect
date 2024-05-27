@@ -2,6 +2,7 @@ import 'package:daily_reflect/providers/mood_data.dart';
 import 'package:daily_reflect/screens/AddMoodScreens/add_note.dart';
 import 'package:daily_reflect/screens/AddMoodScreens/select_neutral_mood.dart';
 import 'package:daily_reflect/screens/AddMoodScreens/select_reason.dart';
+import 'package:daily_reflect/screens/HomeScreen/CalendarBox.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -31,11 +32,11 @@ class _AddMoodState extends State<AddMood> {
     if(step == 0) {
       return AddMoodStepOne();
     } else if(step == 1) {
-      return AddMoodStepTwo();
+      return const AddMoodStepTwo();
     } else if(step == 2) {
-      return SelectReason();
+      return const SelectReason();
     }
-    return AddNote();
+    return const AddNote();
   }
   @override
   Widget build(BuildContext context) {
@@ -59,7 +60,7 @@ class _AddMoodState extends State<AddMood> {
         children: [
           ShaderMask(
             shaderCallback: (rectangle) {
-              return LinearGradient(
+              return const LinearGradient(
                 colors: [Colors.black, Colors.transparent],
                 begin: Alignment.center,
                 end: Alignment.bottomCenter,
@@ -82,8 +83,7 @@ class _AddMoodState extends State<AddMood> {
                 builder: (context, data, child) {
                   return SaveButton(onSave: () {
                     Provider.of<MoodData>(context, listen: false).saveData();
-                  }, onSkip: () {
-
+                    Navigator.pop(context);
                   });
                 },
               )
@@ -121,7 +121,7 @@ class AddMoodStepOne extends StatelessWidget {
             child: moodList()
           ),
         ),
-        SizedBox(height: 60)
+        const SizedBox(height: 60)
       ],
     );
   }
@@ -170,7 +170,7 @@ class IconCell extends StatelessWidget {
         height: 60,
         width: 60,
         decoration: BoxDecoration(
-          color: isPressed ? Color.fromARGB(255, 251, 194, 103) : Colors.transparent,
+          color: isPressed ? const Color.fromARGB(255, 251, 194, 103) : Colors.transparent,
           borderRadius: BorderRadius.circular(30)
         ),
         child: Center(
@@ -189,13 +189,13 @@ class TopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color.fromRGBO(228, 240, 247, 1),
+      color: const Color.fromRGBO(228, 240, 247, 1),
       child: Stack(
         children: [
           Align(
             alignment: Alignment.center,
             child: Container(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: Text(
                 "${step + 1}/4",
               ),
@@ -211,13 +211,13 @@ class TopBar extends StatelessWidget {
                   iconColor: MaterialStateColor.resolveWith((states) => Colors.black),
                 ),
                 onPressed: goBack,
-                child: Icon(Icons.arrow_back)
+                child: const Icon(Icons.arrow_back)
               ),
               TextButton(
                 style: ButtonStyle(
                   backgroundColor: MaterialStateColor.resolveWith((states) => Colors.white),
                 ),
-                child: Icon(Icons.close, color: Colors.black,),
+                child: const Icon(Icons.close, color: Colors.black,),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -229,25 +229,7 @@ class TopBar extends StatelessWidget {
     );
   }
   Widget calendarBox() {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(25))
-      ),
-      child: const Row(
-        children: [
-          // Current day
-          Text(
-            'Sun, 4 Jun  ',
-            style: TextStyle(
-              fontSize: 13
-            )
-          ),
-          Icon(Icons.calendar_month_rounded)
-        ],
-      )
-    );
+    return CalendarBox(day: "Sun, 4 Jun");
   }
 }
 
@@ -260,8 +242,8 @@ class ContinueButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        minimumSize: Size(360, 60),
-        backgroundColor: Color.fromRGBO(139, 76, 252, 1),
+        minimumSize: const Size(360, 60),
+        backgroundColor: const Color.fromRGBO(139, 76, 252, 1),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(50))
         )
@@ -273,8 +255,7 @@ class ContinueButton extends StatelessWidget {
 
 class SaveButton extends StatelessWidget {
   final VoidCallback onSave;
-  final VoidCallback onSkip;
-  const SaveButton({super.key, required this.onSave, required this.onSkip});
+  const SaveButton({super.key, required this.onSave});
 
   @override
   Widget build(BuildContext context) {
@@ -283,8 +264,8 @@ class SaveButton extends StatelessWidget {
         ElevatedButton(
           onPressed: onSave, 
           style: ElevatedButton.styleFrom(
-            minimumSize: Size(360, 60),
-            backgroundColor: Color.fromRGBO(139, 76, 252, 1),
+            minimumSize: const Size(360, 60),
+            backgroundColor: const Color.fromRGBO(139, 76, 252, 1),
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(50))
             )
@@ -294,7 +275,7 @@ class SaveButton extends StatelessWidget {
         TextButton(
           onPressed: onSave, 
           style: ElevatedButton.styleFrom(
-            minimumSize: Size(360, 60),
+            minimumSize: const Size(360, 60),
             foregroundColor: Colors.transparent,
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(50))

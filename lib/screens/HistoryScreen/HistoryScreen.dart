@@ -1,10 +1,8 @@
 import 'package:daily_reflect/screens/HistoryScreen/ArticlesColumn.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/WeekOfArticles.dart';
 import '../../utilities/HexColor.dart';
-import '../CommonComponent/ConvexNavigationBar.dart';
 
 class History extends StatefulWidget {
   History({super.key, required this.weeksOfArticles});
@@ -33,7 +31,8 @@ class _HistoryState extends State<History> with TickerProviderStateMixin {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    _pageViewController.dispose();}
+    _pageViewController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,59 +40,98 @@ class _HistoryState extends State<History> with TickerProviderStateMixin {
         backgroundColor: HexColor('#B0B0B0'),
         resizeToAvoidBottomInset: false,
         body: SafeArea(
-            child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            SizedBox(height: 40,),
-            Row(
-              children: [
-                SizedBox(width: 10.0,),
-                Text("Your history", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
-                Expanded(child: SizedBox(width: double.infinity,)),
-                AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 500),
-                  transitionBuilder: (child, animation) => SlideTransition(
-                    position: back ? (animation.value == 1? offset2 : offset1).animate(animation) : (animation.value == 1? offset1 : offset2).animate(animation),
-                    child: child,
-                  ),
-                  child: Text(
-                    widget.weeksOfArticles[_currentPageIndex].weekTime, style: TextStyle(fontSize: 21, fontWeight: FontWeight.w400),
-                    key: ValueKey<int>(_currentPageIndex),
-                  ),
-                ),                SizedBox(width: 5,),
-                IconButton(onPressed: () {
-                  _updateCurrentPageIndex(_currentPageIndex - 1);
-                }, icon: Icon(
-                  Icons.arrow_back_ios,
-                  size: 20,
-                )),
-                IconButton(onPressed: () {
-                  _updateCurrentPageIndex(_currentPageIndex + 1);
-                }, icon: Icon(
-                  Icons.arrow_forward_ios,
-                  size: 20,
-                )),
-                SizedBox(width: 5,)
-              ],
-            ),
-            Expanded(
-              child: PageView.builder(
-                itemCount: widget.weeksOfArticles.length,
-                controller: _pageViewController,
-                  onPageChanged: _handlePageViewChanged,
-                  itemBuilder: (BuildContext context, int index) {
-                    return ArticlesColumn(moods: widget.weeksOfArticles[index].moodsForTheWeek);
-                  }
+            child: Container(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        //TODO: Experiment more
+                        Colors.white,
+                        HexColor('ffcccc'),
+                        HexColor('ffd9cc'),
+                      ]
+                  )
               ),
-            )
-          ],
-        )));
+              child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+              const SizedBox(
+                height: 40,
+              ),
+              Row(
+                children: [
+                  const SizedBox(
+                    width: 10.0,
+                  ),
+                  const Text(
+                    "Your history",
+                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                  ),
+                  const Expanded(
+                      child: SizedBox(
+                    width: double.infinity,
+                  )),
+                  AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 500),
+                    transitionBuilder: (child, animation) => SlideTransition(
+                      position: back
+                          ? (animation.value == 1 ? offset2 : offset1)
+                              .animate(animation)
+                          : (animation.value == 1 ? offset1 : offset2)
+                              .animate(animation),
+                      child: child,
+                    ),
+                    child: Text(
+                      widget.weeksOfArticles[_currentPageIndex].weekTime,
+                      style: const TextStyle(fontSize: 21, fontWeight: FontWeight.w400),
+                      key: ValueKey<int>(_currentPageIndex),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  IconButton(
+                      onPressed: () {
+                        _updateCurrentPageIndex(_currentPageIndex - 1);
+                      },
+                      icon: const Icon(
+                        Icons.arrow_back_ios,
+                        size: 20,
+                      )),
+                  IconButton(
+                      onPressed: () {
+                        _updateCurrentPageIndex(_currentPageIndex + 1);
+                      },
+                      icon: const Icon(
+                        Icons.arrow_forward_ios,
+                        size: 20,
+                      )),
+                  const SizedBox(
+                    width: 5,
+                  )
+                ],
+              ),
+              Expanded(
+                child: PageView.builder(
+                    itemCount: widget.weeksOfArticles.length,
+                    controller: _pageViewController,
+                    onPageChanged: _handlePageViewChanged,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ArticlesColumn(
+                          moods: widget.weeksOfArticles[index].moodsForTheWeek);
+                    }),
+              )
+                        ],
+                      ),
+            )));
   }
+
   void _handlePageViewChanged(int currentPageIndex) {
     setState(() {
-      if(_currentPageIndex < currentPageIndex) {
+      if (_currentPageIndex < currentPageIndex) {
         back = false;
       } else {
         back = true;

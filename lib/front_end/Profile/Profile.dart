@@ -36,6 +36,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  const Spacer(),
                   IconButton(
                     icon: Icon(
                       Icons.settings,

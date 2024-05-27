@@ -49,7 +49,7 @@ class _MoodArticleState extends State<MoodArticle> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
       child: AnimatedSize(
-        duration: Duration(milliseconds: 150),
+        duration: const Duration(milliseconds: 150),
         child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(25.0),
@@ -60,41 +60,41 @@ class _MoodArticleState extends State<MoodArticle> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   ListTile(
-                    leading: FlutterLogo(),
-                    title: Text(moodString[widget.mood.moodId!], style: TextStyle(fontWeight: FontWeight.bold),),
+                    leading: const FlutterLogo(),
+                    title: Text(moodString[widget.mood.moodId!], style: const TextStyle(fontWeight: FontWeight.bold),),
                     subtitle: Text(widget.mood.time!),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        IconButton(onPressed: () {Navigator.pushNamed(context, '/history');}, icon: Icon(Symbols.edit)),
-                        IconButton(onPressed: () {}, icon: Icon(Symbols.delete)),
+                        IconButton(onPressed: () {Navigator.pushNamed(context, '/history');}, icon: const Icon(Symbols.edit)),
+                        IconButton(onPressed: () {}, icon: const Icon(Symbols.delete)),
                       ],
                     ),
                   ),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   Row(
                     children: [
-                      Text('You felt ', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w400),),
-                      Text(feeling, style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),),
+                      const Text('You felt ', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w400),),
+                      Text(feeling, style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),),
                     ],
                   ),
                   Row(
                     children: [
-                      Text('Because of ', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w400),),
-                      Text(cause, style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),),
+                      const Text('Because of ', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w400),),
+                      Text(cause, style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),),
                     ],
                   ),
-                  SizedBox(height: 30,),
+                  const SizedBox(height: 30,),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Note: ', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-                      Flexible(child: Text(flag ? (firstHalf + "...") : (firstHalf + secondHalf), style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400))),
+                      const Text('Note: ', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                      Flexible(child: Text(flag ? ("$firstHalf...") : (firstHalf + secondHalf), style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w400))),
                     ],
                   ),
-                  SizedBox(height: 7,),
+                  const SizedBox(height: 7,),
                   GestureDetector(
                     onTap: () {
                       setState(() {
@@ -114,13 +114,13 @@ class _MoodArticleState extends State<MoodArticle> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 10,),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                  const SizedBox(height: 10,),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 15.0),
                     child: Divider(color: Colors.grey, height: 2.0),
                   ),
-                  SizedBox(height: 10,),
-                  Row(
+                  const SizedBox(height: 10,),
+                  const Row(
                     children: [
                       Text('Find eternity', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),),
                       Expanded(child: SizedBox(width: double.infinity,)),
@@ -134,9 +134,9 @@ class _MoodArticleState extends State<MoodArticle> {
                       SizedBox(width: 10,),
                     ],
                   ),
-                  SizedBox(height: 10,),
-                  Flexible(child: Text('All the world holds dear is but a backdrop of constant motion. I stand before it alone and unchanging', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),)),
-                  SizedBox(height: 10,)
+                  const SizedBox(height: 10,),
+                  const Flexible(child: Text('All the world holds dear is but a backdrop of constant motion. I stand before it alone and unchanging', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400),)),
+                  const SizedBox(height: 10,)
                 ],
               ),
             )

@@ -14,6 +14,7 @@ class Assets {
   static const String iconsEmojiProud = 'assets/icons/emoji_proud.svg';
   static const String iconsExcited = 'assets/icons/excited.gif';
   static const String iconsFireSvgrepoCom = 'assets/icons/fire-svgrepo-com.svg';
+  static const String iconsHandWave = 'assets/icons/hand-wave.svg';
   static const String iconsHappy = 'assets/icons/happy.gif';
   static const String iconsNeutral = 'assets/icons/neutral.gif';
   static const String iconsPeaceful = 'assets/icons/peaceful.gif';

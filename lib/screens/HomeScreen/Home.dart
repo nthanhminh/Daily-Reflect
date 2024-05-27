@@ -1,19 +1,16 @@
 import 'package:daily_reflect/models/MoodOfDay.dart';
 import 'package:daily_reflect/screens/CommonComponent/MoodArticle.dart';
-import 'package:daily_reflect/screens/CommonComponent/ConvexNavigationBar.dart';
 import 'package:daily_reflect/screens/HomeScreen/CalendarBox.dart';
 import 'package:daily_reflect/screens/HomeScreen/DayTile.dart';
 import 'package:daily_reflect/screens/HomeScreen/MoodChart.dart';
 import 'package:daily_reflect/screens/HomeScreen/StreakBox.dart';
 import 'package:daily_reflect/screens/CommonComponent/SampleData.dart';
 import 'package:daily_reflect/utilities/HexColor.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:material_symbols_icons/material_symbols_icons.dart';
+import 'package:flutter_svg/svg.dart';
 
-import '../../models/Mood.dart';
+import '../../generated/assets.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -51,45 +48,41 @@ class _HomeState extends State<Home> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 40,
               ),
               Row(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
-                  Text(
+                  const Text(
                     "Hey, ",
                     style: TextStyle(fontSize: 25, fontWeight: FontWeight.normal),
                   ),
-                  Text(
+                  const Text(
                     "Sky!",
                     style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 7,
                   ),
-                  Icon(
-                    Symbols.hand_gesture,
-                    size: 25,
-                    weight: 300,
-                  ),
-                  Expanded(
+                  SvgPicture.asset(Assets.iconsHandWave, width: 20,height: 20, colorFilter: const ColorFilter.mode(Colors.black, BlendMode.srcIn),),
+                  const Expanded(
                       child: SizedBox(
                     width: double.infinity,
                   )),
                   CalendarBox(day: "Sun, 4 Jun"),
-                  SizedBox(
+                  const SizedBox(
                     width: 7,
                   ),
                   StreakBox(streakCount: 5),
-                  SizedBox(
+                  const SizedBox(
                     width: 15,
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Expanded(
@@ -99,7 +92,7 @@ class _HomeState extends State<Home> {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       SizedBox(
@@ -121,7 +114,7 @@ class _HomeState extends State<Home> {
                                         child: FadeInAnimation(
                                             child: Row(
                                           children: [
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 12,
                                             ),
                                             DayTile(
@@ -139,7 +132,7 @@ class _HomeState extends State<Home> {
                                 ),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 15,
                             ),
                           ],
@@ -155,10 +148,10 @@ class _HomeState extends State<Home> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SizedBox(
+                                const SizedBox(
                                   height: 15,
                                 ),
-                                Row(
+                                const Row(
                                   children: [
                                     SizedBox(
                                       width: 20,
@@ -171,19 +164,19 @@ class _HomeState extends State<Home> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(height: 10),
-                                Container(
+                                const SizedBox(height: 10),
+                                SizedBox(
                                     height: 300,
                                     child: MoodChart(moods: SampleData.moods,)),
                               ],
                             )),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       ListView.builder(
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         itemCount: 5,
                         cacheExtent: 1000,
                         scrollDirection: Axis.vertical,
@@ -193,7 +186,7 @@ class _HomeState extends State<Home> {
                               MoodArticle(
                                 mood: SampleData.moods[index]
                               ),
-                              SizedBox(height: 10,),
+                              const SizedBox(height: 10,),
                             ],
                           );
                         },

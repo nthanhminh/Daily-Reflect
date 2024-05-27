@@ -58,17 +58,17 @@ class _AddNoteState extends State<AddNote> {
                   ),
                 ),
               ),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               ElevatedButton(
                 onPressed: () {}, 
                 style: ElevatedButton.styleFrom(
-                  maximumSize: Size(240, 60),
+                  maximumSize: const Size(240, 60),
                   backgroundColor: Colors.white,
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(50))
                   )
                 ),
-                child: Center(
+                child: const Center(
                   child: Row(
                     children: [
                       CircleAvatar(
