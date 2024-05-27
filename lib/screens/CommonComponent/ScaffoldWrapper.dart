@@ -1,5 +1,4 @@
-import 'package:daily_reflect/front_end/Post/PostView/Post.dart';
-import 'package:daily_reflect/front_end/Profile/Profile.dart';
+
 import 'package:daily_reflect/screens/AddMoodScreens/select_mood.dart';
 import 'package:daily_reflect/screens/HistoryScreen/HistoryScreen.dart';
 import 'package:daily_reflect/screens/HomeScreen/Home.dart';
@@ -12,6 +11,8 @@ import 'package:provider/provider.dart';
 import '../../providers/mood_data.dart';
 import '../../utilities/HexColor.dart';
 import '../CommonService/NavBarController.dart';
+import '../Post/PostView/Post.dart';
+import '../Profile/Profile.dart';
 import 'ConvexNavigationBar.dart';
 import 'SampleData.dart';
 
@@ -43,16 +44,16 @@ class _ScaffoldWrapperState extends State<ScaffoldWrapper> with TickerProviderSt
   @override
   Widget build(BuildContext context) {
     _tabController.index = c.currentIdx.value;
-    List<Widget> widgets = [Home(), Post(), History(weeksOfArticles: SampleData.weeksOfMoods), Profile()];
+    List<Widget> widgets = [const Home(), const Post(), History(weeksOfArticles: SampleData.weeksOfMoods), const Profile()];
     return Scaffold(
-    bottomNavigationBar: ConvexNavigationBar(),
+    bottomNavigationBar: const ConvexNavigationBar(),
     body: Navigator(
       onGenerateRoute: (settings) {
         Widget page = Obx(() => widgets[c.currentIdx.value]);
-        if (settings.name == '/home') page = Home();
+        if (settings.name == '/home') page = const Home();
         if (settings.name == '/history') page = History(weeksOfArticles: SampleData.weeksOfMoods);
-        if (settings.name == '/profile') page = Profile();
-        if (settings.name == '/posts') page = Post();
+        if (settings.name == '/profile') page = const Profile();
+        if (settings.name == '/posts') page = const Post();
         return MaterialPageRoute(builder: (_) => page);
       },
     ),
@@ -70,7 +71,7 @@ class _ScaffoldWrapperState extends State<ScaffoldWrapper> with TickerProviderSt
             builder: (context) {
               return ChangeNotifierProvider(
                   create: (context) => MoodData(),
-                  child: AddMood()
+                  child: const AddMood()
               );
             }
         );

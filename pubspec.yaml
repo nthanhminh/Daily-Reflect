@@ -35,6 +35,9 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
+  cronet_http: ^1.0.0
+  fetch_client: ^1.0.2
+  cupertino_http: ^1.2.0
   google_fonts: ^6.2.0
   gradient_borders: ^1.0.0
   get: ^4.6.6
@@ -46,6 +49,7 @@ dependencies:
   fl_chart: ^0.66.2
   json_annotation: ^4.8.1
   freezed: ^2.4.7
+  get_it: ^7.7.0
   freezed_annotation:
   json_serializable: ^6.7.1
   build_runner: ^2.4.9
