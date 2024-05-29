@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:daily_reflect/repository/networking/config.dart';
 import 'package:daily_reflect/repository/networking/http_client_factory.dart';
@@ -31,6 +30,17 @@ class HttpService {
     return parsed;
   }
 
+  Future<List<dynamic>> getList({required String endPoint, JSON? queryParams}) async {
+    final url = Uri.https(baseUrl, endPoint, queryParams);
+    Response response = await _inner.get(url);
+    if(response.statusCode != 204 && response.statusCode != 200) {
+      return [];
+    }
+
+    final List<dynamic> parsed = json.decode(response.body);
+    return parsed;
+  }
+
   Future<JSON?> post({required String endPoint, JSON? queryParams, Object? body}) async {
     final url = Uri.https(baseUrl, endPoint, queryParams);
     Response response = await _inner.post(url, body: body);
@@ -39,6 +49,17 @@ class HttpService {
     }
 
     final JSON parsed = json.decode(response.body);
+    return parsed;
+  }
+
+  Future<List<dynamic>> postList({required String endPoint, JSON? queryParams, Object? body}) async {
+    final url = Uri.https(baseUrl, endPoint, queryParams);
+    Response response = await _inner.post(url, body: body);
+    if(response.statusCode != 204 && response.statusCode != 200) {
+      return [];
+    }
+
+    final List<dynamic> parsed = json.decode(response.body);
     return parsed;
   }
 
@@ -53,6 +74,17 @@ class HttpService {
     return parsed;
   }
 
+  Future<List<dynamic>> deleteList({required String endPoint, JSON? queryParams, Object? body}) async {
+    final url = Uri.https(baseUrl, endPoint, queryParams);
+    Response response = await _inner.delete(url, body: body);
+    if(response.statusCode != 204 && response.statusCode != 200) {
+      return [];
+    }
+
+    final List<dynamic> parsed = json.decode(response.body);
+    return parsed;
+  }
+
   Future<JSON?> put({required String endPoint, JSON? queryParams, Object? body}) async {
     final url = Uri.https(baseUrl, endPoint, queryParams);
     Response response = await _inner.put(url, body: body);
@@ -64,6 +96,17 @@ class HttpService {
     return parsed;
   }
 
+  Future<List<dynamic>> putList({required String endPoint, JSON? queryParams, Object? body}) async {
+    final url = Uri.https(baseUrl, endPoint, queryParams);
+    Response response = await _inner.put(url, body: body);
+    if(response.statusCode != 204 && response.statusCode != 200) {
+      return [];
+    }
+
+    final List<dynamic> parsed = json.decode(response.body);
+    return parsed;
+  }
+
   Future<JSON?> patch({required String endPoint, JSON? queryParams, Object? body}) async {
     final url = Uri.https(baseUrl, endPoint, queryParams);
     Response response = await _inner.patch(url, body: body);
@@ -72,6 +115,17 @@ class HttpService {
     }
 
     final JSON parsed = json.decode(response.body);
+    return parsed;
+  }
+
+  Future<List<dynamic>> patchList({required String endPoint, JSON? queryParams, Object? body}) async {
+    final url = Uri.https(baseUrl, endPoint, queryParams);
+    Response response = await _inner.patch(url, body: body);
+    if(response.statusCode != 204 && response.statusCode != 200) {
+      return [];
+    }
+
+    final List<dynamic> parsed = json.decode(response.body);
     return parsed;
   }
 }
