@@ -16,8 +16,8 @@ class HttpService {
 
   HttpService._();
 
-  static HttpClient instance() {
-    return HttpClient();
+  static HttpService instance() {
+    return HttpService._();
   }
 
   Future<JSON?> get({required String endPoint, JSON? queryParams}) async {
